@@ -4,9 +4,32 @@ require('firebase/firestore')
 
 class Fire {
     constructor() {
+        if(!firebase.apps.length){
         firebase.initializeApp(firebaseKeys)
+        }
     }
 
+    addFollows = (data) => {
+        console.log("data", data);
+        // note* this is the user the current user will follow
+        // push selected user uid to current users follows array
+        
+    }
+
+    addFollower = () => {
+        // note* update the newly followed user with your id as a follower
+    }
+
+    getUserById = (id) => {
+        console.log('id', id)
+        // 1. query firebase db
+        // 2. return user by uid            
+    }
+
+    getAllFollowers = () => {
+
+        // returns array of all users followers
+    }
 
     addPost = async ({text, localUri}) => {
         const remoteUri = await this.uploadPhotoAsync(localUri, `photos/${this.uid}/${Date.now()}`)
@@ -52,16 +75,14 @@ class Fire {
 
     createUser = async user => {
         let remoteUri = null;
-
         try {
             await firebase.auth().createUserWithEmailAndPassword(user.email, user.password);
 
             let db = this.firestore.collection("users").doc(this.uid);
-
             db.set({
                 name: user.name,
                 email: user.email,
-                avatar: undefined
+                avatar: ''
             });
 
             if (user.avatar) {
@@ -70,7 +91,7 @@ class Fire {
                 db.set({ avatar: remoteUri }, { merge: true });
             }
         } catch (error) {
-            alert("Error: ", error.messages);
+            console.log("Error: ", error);
         }
     }
 
@@ -83,7 +104,9 @@ class Fire {
     }
 
     get uid() {
-        return (firebase.auth().updateCurrentUser || {}).uid
+        // let uid = (firebase.auth().updateCurrentUser || {}).uid;
+        let uid = firebase.auth().currentUser.uid;
+        return uid;
     }
 
     get timestamp(){

@@ -17,11 +17,7 @@ import App from "./App"
 import { name as appName } from "./app.json"  
 AppRegistry.registerComponent(appName, () => App)
 
-import * as firebase from 'firebase'
 
-var firebaseConfig = firebaseKeys
-
- firebase.initializeApp(firebaseConfig);
 
  const AppContainer = createStackNavigator({
         default: createBottomTabNavigator({
