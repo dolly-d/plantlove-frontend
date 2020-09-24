@@ -1,8 +1,6 @@
 import React from 'react'
 import {View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput} from 'react-native'
 import {Ionicons} from '@expo/vector-icons'
-import Constants from 'expo-constants'
-import * as Permissions from 'expo-permissions'
 import Fire from '../Fire'
 import *as ImagePicker from 'expo-image-picker'
 import UserPermissions from '../utilities/UserPermissions'
@@ -11,19 +9,24 @@ import UserPermissions from '../utilities/UserPermissions'
 
 export default class PostScreen extends React.Component {
     state = {
+        name: '',
         text: '',
-        image: undefined,
+        image: 'https://i0.wp.com/cowancenter.org/wp-content/uploads/2020/06/placeholder.png?ssl=1',
     }
 
     componentDidMount() {
         UserPermissions.getCameraPermission()
+        console.log('THIS !!! ==>', this)
     }
 
 
     handlePost = () => {
-        Fire.shared.addPost({text: this.state.text.trim(), localUri: this.state.image}).then(ref => {
-            this.setState({text: '', image: undefined })
-            .then.props.navigation.goBack()
+        Fire.shared.addPost({text: this.state.text.trim(), localUri: this.state.image})
+        .then(ref => {
+            this.setState({
+                text: '', 
+                image: 'https://i0.wp.com/cowancenter.org/wp-content/uploads/2020/06/placeholder.png?ssl=1' })
+            this.props.navigation.goBack()
         }).catch(error => {
             alert(error)
         })
@@ -71,7 +74,7 @@ export default class PostScreen extends React.Component {
                     <Ionicons name='md-camera' size={32} color='D8D9DB'></Ionicons>
                 </TouchableOpacity>
                 <View style={{marginHorizontal: 32, marginTop: 32, height: 150}}>
-                    <Image source={{uri: this.state.image }} style={{ width: '100%', height: '100%'}}>
+                    <Image source={{uri: this.state.image}} style={{ width: '100%', height: '100%'}}>
                     </Image>
                 </View>
             </SafeAreaView>

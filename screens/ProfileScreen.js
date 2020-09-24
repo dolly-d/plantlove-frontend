@@ -29,14 +29,7 @@ export default class ProfileScreen extends React.Component {
             <View style={styles.container}>
                 <View style={{ marginTop: 64, alignItems: "center" }}>
                     <View style={styles.avatarContainer}>
-                        <Image
-                            source={
-                                this.state.user.avatar
-                                    ? { uri: this.state.user.avatar }
-                                    : require("../assets/tempAvatar.jpg")
-                            }
-                            style={styles.avatar}
-                        />
+                        <Image source={{ uri: this.state.user.avatar }} style={styles.avatar} />
                     </View>
                     <Text style={styles.name}>{this.state.user.name}</Text>
                 </View>

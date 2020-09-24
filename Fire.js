@@ -5,12 +5,20 @@ require('firebase/firestore')
 class Fire {
     constructor() {
         if(!firebase.apps.length){
-        firebase.initializeApp(firebaseKeys)
+            firebase.initializeApp(firebaseKeys)
         }
     }
 
+
+    // componentDidMount(){
+    //     const posts = firebase.database.ref('posts')
+    //     posts.on('value',datasnap=>{
+    //      console.log(datasnap.val)
+    //     })
+    //  }
+
     addFollows = (data) => {
-        console.log("data", data);
+        // console.log("data", data);
         // note* this is the user the current user will follow
         // push selected user uid to current users follows array
         
@@ -21,7 +29,7 @@ class Fire {
     }
 
     getUserById = (id) => {
-        console.log('id', id)
+        // console.log('id', id)
         // 1. query firebase db
         // 2. return user by uid            
     }
@@ -41,7 +49,9 @@ class Fire {
                 text,
                 uid: this.uid,
                 timestamp: this.timestamp,
-                image: remoteUri
+                image: remoteUri,
+                comments: [],
+                likes: 0
             })
             .then(ref => {
                 res(ref)
@@ -79,10 +89,14 @@ class Fire {
             await firebase.auth().createUserWithEmailAndPassword(user.email, user.password);
 
             let db = this.firestore.collection("users").doc(this.uid);
+            console.log(user)
             db.set({
                 name: user.name,
                 email: user.email,
-                avatar: ''
+                avatar: user.avatar || '',
+                following: [],
+                followers: [],
+                uid: this.uid
             });
 
             if (user.avatar) {
@@ -91,7 +105,7 @@ class Fire {
                 db.set({ avatar: remoteUri }, { merge: true });
             }
         } catch (error) {
-            console.log("Error: ", error);
+            // console.log("Error: ", error);
         }
     }
 
@@ -104,7 +118,6 @@ class Fire {
     }
 
     get uid() {
-        // let uid = (firebase.auth().updateCurrentUser || {}).uid;
         let uid = firebase.auth().currentUser.uid;
         return uid;
     }
@@ -113,6 +126,8 @@ class Fire {
         return Date.now()
     }
 }
+
+// export const db = firebase.firestore()
 
 Fire.shared = new Fire()
 export default Fire;
