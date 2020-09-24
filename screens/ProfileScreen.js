@@ -24,6 +24,42 @@ export default class ProfileScreen extends React.Component {
         this.unsubscribe();
     }
 
+
+    state = {
+        user: {
+
+            name: "",
+            email: "",
+            password: "",
+            avatar: undefined
+        },
+        errorMessage: false
+    };
+
+    // likesHandler = (post)=>{ 
+    //     uid = post.id
+    //     const db = firebase.firestore();
+    //     db.collection('posts').doc(uid).update({
+    //         likes: post.likes += 1     
+    //     })
+    //     // console.log(uid)
+    // }
+
+    handlePickAvatar = async () => {
+        UserPermissions.getCameraPermission()
+
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing :true,
+            aspect: [4, 3]
+        })
+       
+
+        if (!result.cancelled){
+            this.setState({user: {...this.state.user, avatar: result.uri} })
+        }
+    }    
+
     render() {
         return (
             <View style={styles.container}>

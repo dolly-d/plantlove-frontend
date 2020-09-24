@@ -6,10 +6,9 @@ import {Ionicons} from '@expo/vector-icons'
 import moment from 'moment'
 import firebaseKeys from '../firebase'
 import firebase from 'firebase'
-// import Fire from '../Fire'
+import { withNavigation } from 'react-navigation'
 require('firebase/firestore')
 
-const url = 'https://firestore.googleapis.com/v1/projects/plantbae-7589d/databases/(default)/documents/posts'
 
 // posts = [ 
 //     {
@@ -49,9 +48,13 @@ export default class HomeScreen extends React.Component {
     }
     
     componentDidMount(){
-       
+        const { navigation } = this.props;
         this.fetchUser()
         this.fetchPost();
+        this.focusListener = navigation.addListener('didFocus', () => {
+            this.fetchPost();
+            
+        });
     }
     
     fetchUser =()=>{
@@ -73,20 +76,47 @@ export default class HomeScreen extends React.Component {
         }
         firebase.firestore()
         .collection('posts')
+        .orderBy("timestamp", "desc")
         .get()
         .then(snapshot => {
             let data = snapshot.docs.map((doc) => {
-                return doc.data();
+                let id = doc.id
+                return (doc.data(),
+                { ...doc.data(), ['id']: id }
+                )
+                
+                
             })
            this.setState({ postsArray: data })
             // console.log('MY DATA ===>', this.state.postsArray)
         })
+       
 
     }
 
-    followerUser = (post)=>{
-        console.log(firebase.auth().currentUser.uid)
-        console.log(post.uid)
+
+
+    // addFollows = (post) => {
+    //     let userId = firebase.auth().currentUser.uid
+    //     let followingId = post.uid
+    //     let userRef = firebase.database().ref().child('users')
+    //     let updates = {
+    //     [`${userId}/following/arrayValue/values/stringValue`]: followingId,
+    //     [`${followingId}/followers/arrayValue/values/stringValue`]: userId
+    //     }
+    //     // console.log(updates)
+    //     userRef.update(updates)
+
+
+    // }
+
+    likesHandler = (post)=>{ 
+        uid = post.id
+        const db = firebase.firestore();
+        db.collection('posts').doc(uid).update({
+            likes: post.likes += 1     
+        })
+        // console.log(uid)
     }
     
     renderPost = post => {
@@ -117,7 +147,7 @@ export default class HomeScreen extends React.Component {
                             <Text style={styles.timestamp}>{moment(post.timestamp).fromNow()}</Text>
                        </View>
 
-                        <TouchableOpacity onPress={()=> this.followerUser(post)}>
+                        <TouchableOpacity onPress={()=> this.addFollows(post)}>
                          <Ionicons name='ios-person-add' size={24} color='#73788B' />
                        </TouchableOpacity>
                    
@@ -129,9 +159,15 @@ export default class HomeScreen extends React.Component {
                     <Image source={{uri: post.image}} style={styles.postImage} resizeMode="cover" />
                
                     <View style={{flexDirection: 'row'}}>
-                        <Ionicons name='ios-heart-empty' size={24} color='#73788B' style={{marginRight: 16}} />
-                        <Ionicons name='ios-chatboxes' size={24} color='#73788B' />
 
+                    <TouchableOpacity onPress={() => this.likesHandler(post)}>
+                        <Ionicons name='ios-heart' size={24} color='#73788B' style={{marginRight: 16}} />
+                        
+                    </TouchableOpacity>   
+
+                    <TouchableOpacity onPress={() => (console.log('working',post.id))}> 
+                        <Ionicons name='ios-chatboxes' size={24} color='#73788B' />
+                    </TouchableOpacity>
                     </View>
                </View>
             </View>
@@ -144,12 +180,6 @@ export default class HomeScreen extends React.Component {
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Text style={styles.headerTitle}>Feed</Text>
-
-                    <TouchableOpacity style={{ marginTop: 32 }} 
-                    onPress={() => {this.signOutUser; this.props.navigation.navigate("Registration")}}>
-                    <Text>Logout</Text>
-                    </TouchableOpacity>
-
                 </View>
 
                 <FlatList 

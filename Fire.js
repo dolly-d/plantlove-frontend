@@ -17,12 +17,7 @@ class Fire {
     //     })
     //  }
 
-    addFollows = (data) => {
-        // console.log("data", data);
-        // note* this is the user the current user will follow
-        // push selected user uid to current users follows array
-        
-    }
+    
 
     addFollower = () => {
         // note* update the newly followed user with your id as a follower
@@ -82,6 +77,9 @@ class Fire {
             )
         })
     }
+    
+    //update user by id...query user...get user.id 
+    // sending your following user.followers.push()
 
     createUser = async user => {
         let remoteUri = null;
