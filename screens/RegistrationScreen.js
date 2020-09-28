@@ -4,6 +4,7 @@ import {Ionicons} from '@expo/vector-icons'
 import Fire from '../Fire'
 import UserPermissions from '../utilities/UserPermissions'
 import * as ImagePicker from 'expo-image-picker'
+import { shadow } from 'react-native-paper';
 
 export default class RegistrationScreen extends React.Component {
     static navigationOptions = {
@@ -43,10 +44,10 @@ export default class RegistrationScreen extends React.Component {
             <View style={styles.container}>
                 <StatusBar barStyle="light-content"> </StatusBar>
                 <Image 
-                source={require("../assets/authHeader.png")} 
-                style={{marginTop: -176, marginLeft: -50}}
+                source={require("../assets/plantbae1.png")} 
+                style={{marginTop: 76, marginRight: 20, alignItems: "center", width: "60%", height: "10%"}}
                 ></Image>
-
+                
                 <Image 
                 source={require('../assets/authFooter.png')} 
                 style={{position: 'absolute', bottom: -325, right: -225}}
@@ -111,8 +112,8 @@ export default class RegistrationScreen extends React.Component {
                 <TouchableOpacity 
                 style={{ alignSelf: "center", marginTop: 32}} 
                 onPress={() => this.props.navigation.navigate("Login")}>
-                    <Text style={{ color: "#414959", fontSize: 13}}>
-                       Already a plantbae? <Text style={{ fontWeight: "500", color: "#E9446A"}}>Log In! </Text>
+                    <Text style={{ color: "#414959", fontSize: 20}}>
+                       Already a plantbae? <Text style={{ fontWeight: "500", color: "#1A4316"}}>Log In! </Text>
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -129,8 +130,9 @@ const styles = StyleSheet.create({
     greeting: {
         margin: 32,
         fontSize: 20,
-        fontWeight: "400",
-        textAlign: "center"
+        fontWeight: "bold",
+        textAlign: "center",
+        color: "#414959"
     },
 
     errorMessage: {
@@ -171,7 +173,7 @@ const styles = StyleSheet.create({
 
     button: {
         marginHorizontal: 30,
-        backgroundColor: "#E9446A",
+        backgroundColor: "#567353", 
         borderRadius: 4,
         height: 52,
         alignItems: "center",
@@ -181,12 +183,12 @@ const styles = StyleSheet.create({
     avatarPlaceholder: {
         // position: 'absolute',
         alignItems: "center",
-        width: 100,
-        height: 100,
-        backgroundColor: '#E1E2E6',
+        width: 80,
+        height: 80,
+        backgroundColor: '#E1B3A2',
         borderRadius: 50,
-        marginTop: 60,
-        marginLeft: 140,
+        marginTop: 100,
+        marginLeft: 153,
         justifyContent: 'center',
         alignItems: 'center'
     },

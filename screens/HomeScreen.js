@@ -46,7 +46,6 @@ export default class HomeScreen extends React.Component {
     state = {
         postsArray: [],
         usersArray: [],
-        modalVisible: false,
         comment: "",
         pickPost: []
     }
@@ -103,44 +102,9 @@ export default class HomeScreen extends React.Component {
         db.collection('posts').doc(uid).update({
             likes: post.likes += 1     
         })
+        this.fetchPost()
     }
 
-    commentHandler = ()=>{ 
-        const { modalVisible } = this.state;
-        this.setModalVisible(!modalVisible);
-
-        return new Promise((res, rej) => {
-            const comment = this.state.comment
-            const uid = this.state.pickPost.id;
-            const userid = firebase.auth().currentUser.uid;
-            const db = firebase.firestore();
-            const timestamp = Date.now();
-            db.collection("comments")
-            .add({
-                text: comment,
-                uid: userid,
-                timestamp: timestamp,
-                postid: uid,
-            })
-            .then(ref => {
-                res(ref)
-            })
-            .catch(error => {
-                rej(error)
-            })
-        })
-    }
-
-
-
-    
-    setModalVisible = (visible, post) => {
-        this.setState({ modalVisible: visible, 
-        pickPost: post
-        });
-    
-
-      }
     
     renderPost = post => {
         const userAvatar = this.state.usersArray.map((user) => {
@@ -174,25 +138,23 @@ export default class HomeScreen extends React.Component {
                             <Text style={styles.timestamp}>{moment(post.timestamp).fromNow()}</Text>
                        </View>
                    </View>
-
+                   
 
                     <Text style={styles.posts}>{post.text}</Text>
 
                     <Image source={{uri: post.image}} style={styles.postImage} resizeMode="cover"/>
                
                     <View style={{flexDirection: 'row'}}>
-
+                    <Text style={styles.posts}>{post.likes} {''}</Text>
                     <TouchableOpacity onPress={() => this.likesHandler(post)}>
                         <Ionicons name='ios-heart' size={24} color='#73788B' style={{marginRight: 16}} />
                         
                     </TouchableOpacity>   
 
-                    <TouchableOpacity onPress={() => {this.setModalVisible(true, post);}}> 
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('commentsModal',
+                    {otherParam: post})}> 
                         <Ionicons name='ios-chatboxes' size={24} color='#73788B' />
                     </TouchableOpacity>
-                    <Button title='comments' onPress={() => this.props.navigation.navigate('commentsModal',
-                    {otherParam: post}
-                    )}/>
                     </View>
                </View>
             </View>
@@ -200,9 +162,8 @@ export default class HomeScreen extends React.Component {
     }
     
     render() {
-        const { modalVisible } = this.state;
         return(
-            <>
+        
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Text style={styles.headerTitle}>Feed</Text>
@@ -219,43 +180,7 @@ export default class HomeScreen extends React.Component {
                 />
             </View>
             
-            <View style={styles.centeredView}>
-            <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
-            }}
-            >
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                <Text style={styles.modalText}>Post a Comment</Text>
-                <Button title="Close"  onPress={() => {
-                    this.setModalVisible(!modalVisible);
-                    }}></Button>
-                <TextInput
-                    style={{  flexDirection: 'row',
-                    alignSelf: 'stretch',
-                     flex: 0}}
-                    label="Comment"
-                    onChangeText={(text) => this.setState({
-                        comment: text
-                    })}
-                />
-                <TouchableHighlight
-                    style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                    onPress={() => {
-                    this.commentHandler()
-                    }}
-                >
-                    <Text style={styles.textStyle}>Post Comment</Text>
-                </TouchableHighlight>
-                </View>
-            </View>
-            </Modal>
-            </View>
-            </>
+            
             
         )
     }
@@ -326,28 +251,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginTop: 40,
         marginBottom: 30
-      },
-      modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 5,
-        alignItems: "center",
-        shadowColor: "#000",
-        width: 350,
-        shadowOffset: {
-          width: 0,
-          height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5
-      },
-      openButton: {
-        backgroundColor: "#F194FF",
-        borderRadius: 20,
-        padding: 20,
-        elevation: 2
       },
       textStyle: {
         color: "white",

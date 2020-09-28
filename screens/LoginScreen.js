@@ -31,8 +31,8 @@ export default class LoginScreen extends React.Component {
             <View style={styles.container}>
                 <StatusBar barStyle="light-content"> </StatusBar>
                 <Image 
-                source={require("../assets/authHeader.png")} 
-                style={{marginTop: -176, marginLeft: -50}}
+                source={require("../assets/plantbae1.png")} 
+                style={{marginTop: 76, marginRight: 20, alignItems: "center", width: "60%", height: "10%"}}
                 ></Image>
 
                 <Image 
@@ -77,9 +77,9 @@ export default class LoginScreen extends React.Component {
                 <TouchableOpacity 
                 style={{ alignSelf: "center", marginTop: 32}} 
                 onPress={() => this.props.navigation.navigate("Registration")}>
-                    <Text style={{ color: "#414959", fontSize: 13}}>
+                    <Text style={{ color: "#414959", fontSize: 20}}>
                         Not
-                         a plantbae but want to be? <Text style={{ fontWeight: "500", color: "#E9446A"}}>Yes! </Text>
+                         a plantbae but want to be? <Text style={{ fontWeight: "500", color: "#1A4316"}}>Yes! </Text>
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -96,8 +96,9 @@ const styles = StyleSheet.create({
     greeting: {
         margin: 32,
         fontSize: 20,
-        fontWeight: "400",
-        textAlign: "center"
+        fontWeight: "bold",
+        textAlign: "center",
+        color: "#414959"
     },
 
     errorMessage: {
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
 
     button: {
         marginHorizontal: 30,
-        backgroundColor: "#E9446A",
+        backgroundColor: "#567353", 
         borderRadius: 4,
         height: 52,
         alignItems: "center",
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
         width: 32,
         height: 32,
         borderRadius: 16,
-        backgroundColor: 'rgba(21, 22, 48, 0.1)',
+        backgroundColor: 'rgba(107, 142, 35, 0.5)',
         alignItems: 'center',
         justifyContent: 'center'
     }

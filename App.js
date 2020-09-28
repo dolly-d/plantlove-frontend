@@ -34,16 +34,16 @@ AppRegistry.registerComponent(appName, () => App)
                 }
             },
         
-            Search: {
-                screen: SearchScreen,
-                navigationOptions: {
-                    tabBarIcon: ({ tintColor}) => <Ionicons 
-                    name="ios-search" 
-                    size={24} 
-                    color={tintColor} /> 
+            // Search: {
+            //     screen: SearchScreen,
+            //     navigationOptions: {
+            //         tabBarIcon: ({ tintColor}) => <Ionicons 
+            //         name="ios-search" 
+            //         size={24} 
+            //         color={tintColor} /> 
         
-                }
-            },
+            //     }
+            // },
         
             Post: {
                 screen: PostScreen,
@@ -52,7 +52,7 @@ AppRegistry.registerComponent(appName, () => App)
                     <Ionicons 
                     name="ios-add-circle" 
                     size={35} 
-                    color='#E9446A' 
+                    color='#567353' 
                     style={{
                         shadowColor: '#E9446A', 
                         shadowOffset: {width: 0, height: 0},
@@ -64,17 +64,17 @@ AppRegistry.registerComponent(appName, () => App)
                 }
                 },
         
-            Notifications: {
-                screen: NotificationsScreen,
-                navigationOptions: {
-                    tabBarIcon: ({ tintColor}) => 
-                    <Ionicons 
-                    name="ios-notifications" 
-                    size={24} 
-                    color={tintColor} /> 
+            // Notifications: {
+            //     screen: NotificationsScreen,
+            //     navigationOptions: {
+            //         tabBarIcon: ({ tintColor}) => 
+            //         <Ionicons 
+            //         name="ios-notifications" 
+            //         size={24} 
+            //         color={tintColor} /> 
 
-                }
-                },
+            //     }
+            //     },
 
                 Profile: {
                     screen: ProfileScreen,

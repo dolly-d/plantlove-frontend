@@ -1,17 +1,21 @@
 import React from "react";
 import firebase from 'firebase'
-
+import Fire from "../Fire";
 import { 
     View, 
     Text, 
-    TextInput,
     StyleSheet, 
     Button, 
     Image, 
     ScrollView, 
+    TouchableHighlight,
     TouchableOpacity, 
     SafeAreaView} from "react-native";
 import {Ionicons} from '@expo/vector-icons'
+import { TextInput } from 'react-native-paper'
+import { ListItem } from 'react-native-elements'
+import moment from 'moment'
+
 
 
 export default class PostViewScreen extends React.Component {
@@ -19,10 +23,18 @@ export default class PostViewScreen extends React.Component {
         usersArray: [],
         modalVisible: false,
         commentsArray: [],
+        user: ""
     }
     
     componentDidMount(){
+        const user = this.props.uid || Fire.shared.uid;
         const { navigation } = this.props;
+        this.unsubscribe = Fire.shared.firestore
+            .collection("users")
+            .doc(user)
+            .onSnapshot(doc => {
+                this.setState({ user: doc.data() });
+            });
         this.fetchComments(); 
         this.fetchUsers();
         this.focusListener = navigation.addListener('didFocus', () => {
@@ -58,9 +70,37 @@ export default class PostViewScreen extends React.Component {
            this.setState({ usersArray: userData })
             // console.log('MY DATA ===>', this.state.usersArray)
         })
-       
-
     }
+
+  
+
+    commentHandler = ()=>{ 
+        return new Promise((res, rej) => {
+            const comment = this.state.comment
+            const uid = this.props.navigation.state.params.otherParam.id
+            const userid = firebase.auth().currentUser.uid;
+            const db = firebase.firestore();
+            const timestamp = Date.now();
+            const username = this.state.user.name
+            db.collection("comments")
+            .add({
+                text: comment,
+                uid: userid,
+                timestamp: timestamp,
+                postid: uid,
+                name: username
+            })
+            .then(ref => {
+                res(ref)
+            })
+            .then(this.fetchComments())
+            .catch(error => {
+                rej(error)
+            })
+        })
+        
+    }
+
 
     
 
@@ -70,10 +110,12 @@ export default class PostViewScreen extends React.Component {
         const comments = this.state.commentsArray.map((comment) => {
             if (postid === comment.postid ){
                 return(
-                    <>
-                <Text>{comment.text}</Text>
-                {/* <Text>{comment.uid}</Text> */}
-                </>
+                <ListItem>
+                      <ListItem.Content>
+                <ListItem.Subtitle>{comment.name}- {moment(comment.timestamp).fromNow()}</ListItem.Subtitle>
+                <ListItem.Title>{comment.text}</ListItem.Title>
+                    </ListItem.Content>
+                </ListItem>
                 )
             }
 
@@ -81,16 +123,36 @@ export default class PostViewScreen extends React.Component {
         
         
         return(
+            
+
             <SafeAreaView style={styles.container}>
-                 
-                 <View style={styles.header}>
+
+                <View style={styles.header}>
                     <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                         <Ionicons name='md-arrow-back' size={24} color='#D8D9DB'></Ionicons>
                     </TouchableOpacity>
                         <Text style={{fontWeight: '500'}}> Comments </Text>
                 </View>
         
+                <ScrollView>
                 {comments}
+                </ScrollView>
+              
+                 
+                <View style={{flexDirection:'row', alignItems: "flex-end"}}>
+                <TextInput
+                    style={styles.input}
+                    label="Comment"
+                    onChangeText={(text) => this.setState({
+                        comment: text
+                    })}
+                />
+                    <TouchableOpacity onPress={() => {this.commentHandler()}} 
+                    style={styles.submitButton}>
+                        <Text style={styles.submitButtonText}>Post</Text>
+                    </TouchableOpacity>
+                </View>
+                
                  
             </SafeAreaView>
         )  
@@ -109,6 +171,12 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#D8D9DB'
     },
+    openButton: {
+        backgroundColor: "#F194FF",
+        borderRadius: 20,
+        padding: 20,
+        elevation: 2
+    },
     inputContainer: {
         margin: 32,
         flexDirection: 'row'
@@ -123,5 +191,26 @@ const styles = StyleSheet.create({
     photo: {
         alignItems: 'flex-end',
         marginHorizontal: 32
-    }
+    },
+    container: {
+        paddingTop: 23
+     },
+     input: {
+        flex: 1,
+        margin: 15,
+        height: 40,
+        borderColor: '#567353',
+        borderWidth: 1
+     },
+     submitButton: {
+        flex: 0,
+        backgroundColor: '#567353',
+        padding: 10,
+        margin: 15,
+        height: 40,
+        borderRadius: 5
+     },
+     submitButtonText:{
+        color: 'white'
+     }
 })
