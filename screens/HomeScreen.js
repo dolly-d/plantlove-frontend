@@ -1,12 +1,14 @@
 import React from 'react'
 // import Fire from '../Fire'
 // import {db} from '../Fire'
-import {View, Text, StyleSheet, FlatList, Image, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Modal, TouchableHighlight, Button} from 'react-native'
 import {Ionicons} from '@expo/vector-icons'
+import { TextInput } from 'react-native-paper'
 import moment from 'moment'
 import firebaseKeys from '../firebase'
 import firebase from 'firebase'
 import { withNavigation } from 'react-navigation'
+import { render } from 'react-dom'
 require('firebase/firestore')
 
 
@@ -44,7 +46,9 @@ export default class HomeScreen extends React.Component {
     state = {
         postsArray: [],
         usersArray: [],
-        // followersArray: []
+        modalVisible: false,
+        comment: "",
+        pickPost: []
     }
     
     componentDidMount(){
@@ -66,7 +70,6 @@ export default class HomeScreen extends React.Component {
                 return doc.data();
             })
            this.setState({ usersArray: userData })
-        //     console.log('MY DATA ===>', this.state.usersArray)
         })
     }
 
@@ -92,38 +95,61 @@ export default class HomeScreen extends React.Component {
         })
        
 
-    }
-
-
-
-    // addFollows = (post) => {
-    //     let userId = firebase.auth().currentUser.uid
-    //     let followingId = post.uid
-    //     let userRef = firebase.database().ref().child('users')
-    //     let updates = {
-    //     [`${userId}/following/arrayValue/values/stringValue`]: followingId,
-    //     [`${followingId}/followers/arrayValue/values/stringValue`]: userId
-    //     }
-    //     // console.log(updates)
-    //     userRef.update(updates)
-
-
-    // }
+    }  
 
     likesHandler = (post)=>{ 
-        uid = post.id
+       const uid = post.id
         const db = firebase.firestore();
         db.collection('posts').doc(uid).update({
             likes: post.likes += 1     
         })
-        // console.log(uid)
     }
+
+    commentHandler = ()=>{ 
+        const { modalVisible } = this.state;
+        this.setModalVisible(!modalVisible);
+
+        return new Promise((res, rej) => {
+            const comment = this.state.comment
+            const uid = this.state.pickPost.id;
+            const userid = firebase.auth().currentUser.uid;
+            const db = firebase.firestore();
+            const timestamp = Date.now();
+            db.collection("comments")
+            .add({
+                text: comment,
+                uid: userid,
+                timestamp: timestamp,
+                postid: uid,
+            })
+            .then(ref => {
+                res(ref)
+            })
+            .catch(error => {
+                rej(error)
+            })
+        })
+    }
+
+
+
+    
+    setModalVisible = (visible, post) => {
+        this.setState({ modalVisible: visible, 
+        pickPost: post
+        });
+    
+
+      }
     
     renderPost = post => {
         const userAvatar = this.state.usersArray.map((user) => {
             if(user.uid == post.uid){
                 return (
-                    <Image source={{uri: user.avatar}} style={styles.avatar} />
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('profileModal', {otherParam: post})}> 
+                        <Image source={{uri: user.avatar}} style={styles.avatar} />
+                    </TouchableOpacity>
+                    
                 )
             }
         })
@@ -135,7 +161,8 @@ export default class HomeScreen extends React.Component {
                 )
             }
         })
-        // console.log(userAvatar)
+    
+
         return(
         
             <View style={styles.feedItem}>
@@ -146,17 +173,12 @@ export default class HomeScreen extends React.Component {
                             {userName}
                             <Text style={styles.timestamp}>{moment(post.timestamp).fromNow()}</Text>
                        </View>
-
-                        <TouchableOpacity onPress={()=> this.addFollows(post)}>
-                         <Ionicons name='ios-person-add' size={24} color='#73788B' />
-                       </TouchableOpacity>
-                   
                    </View>
 
 
                     <Text style={styles.posts}>{post.text}</Text>
 
-                    <Image source={{uri: post.image}} style={styles.postImage} resizeMode="cover" />
+                    <Image source={{uri: post.image}} style={styles.postImage} resizeMode="cover"/>
                
                     <View style={{flexDirection: 'row'}}>
 
@@ -165,9 +187,12 @@ export default class HomeScreen extends React.Component {
                         
                     </TouchableOpacity>   
 
-                    <TouchableOpacity onPress={() => (console.log('working',post.id))}> 
+                    <TouchableOpacity onPress={() => {this.setModalVisible(true, post);}}> 
                         <Ionicons name='ios-chatboxes' size={24} color='#73788B' />
                     </TouchableOpacity>
+                    <Button title='comments' onPress={() => this.props.navigation.navigate('commentsModal',
+                    {otherParam: post}
+                    )}/>
                     </View>
                </View>
             </View>
@@ -175,11 +200,13 @@ export default class HomeScreen extends React.Component {
     }
     
     render() {
-        
+        const { modalVisible } = this.state;
         return(
+            <>
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Text style={styles.headerTitle}>Feed</Text>
+                    
                 </View>
 
                 <FlatList 
@@ -191,13 +218,51 @@ export default class HomeScreen extends React.Component {
                 showsVerticalScrollIndicator={false}
                 />
             </View>
+            
+            <View style={styles.centeredView}>
+            <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+            }}
+            >
+            <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                <Text style={styles.modalText}>Post a Comment</Text>
+                <Button title="Close"  onPress={() => {
+                    this.setModalVisible(!modalVisible);
+                    }}></Button>
+                <TextInput
+                    style={{  flexDirection: 'row',
+                    alignSelf: 'stretch',
+                     flex: 0}}
+                    label="Comment"
+                    onChangeText={(text) => this.setState({
+                        comment: text
+                    })}
+                />
+                <TouchableHighlight
+                    style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                    onPress={() => {
+                    this.commentHandler()
+                    }}
+                >
+                    <Text style={styles.textStyle}>Post Comment</Text>
+                </TouchableHighlight>
+                </View>
+            </View>
+            </Modal>
+            </View>
+            </>
+            
         )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: '#EFECF4'
     },
     header: {
@@ -251,12 +316,46 @@ const styles = StyleSheet.create({
     },
     postImage: {
         width: undefined,
-        height: 150,
+        height: 200,
         borderRadius: 5,
         marginVertical: 16
 
-    }
-    
-
-
+    },centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 40,
+        marginBottom: 30
+      },
+      modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 5,
+        alignItems: "center",
+        shadowColor: "#000",
+        width: 350,
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+      },
+      openButton: {
+        backgroundColor: "#F194FF",
+        borderRadius: 20,
+        padding: 20,
+        elevation: 2
+      },
+      textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+      },
+      modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+      }
 })

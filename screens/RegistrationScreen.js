@@ -52,7 +52,7 @@ export default class RegistrationScreen extends React.Component {
                 style={{position: 'absolute', bottom: -325, right: -225}}
                 ></Image>
 
-                <View style={{ position: "absolute", top: 64, alignItems: "center", width: "100%", flex: 1 }}>
+                <View style={{ position: "absolute", top: 154, alignItems: "center", width: "100%", flex: 1 }}>
                     <Text style={styles.greeting}>{`Hello!\nSign up to get started.`}</Text>
                     
                 </View>
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
         height: 100,
         backgroundColor: '#E1E2E6',
         borderRadius: 50,
-        marginTop: 30,
+        marginTop: 60,
         marginLeft: 140,
         justifyContent: 'center',
         alignItems: 'center'

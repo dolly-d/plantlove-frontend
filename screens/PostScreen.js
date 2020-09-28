@@ -7,6 +7,7 @@ import UserPermissions from '../utilities/UserPermissions'
 
 
 
+
 export default class PostScreen extends React.Component {
     state = {
         name: '',
@@ -16,7 +17,6 @@ export default class PostScreen extends React.Component {
 
     componentDidMount() {
         UserPermissions.getCameraPermission()
-        console.log('THIS !!! ==>', this)
     }
 
 

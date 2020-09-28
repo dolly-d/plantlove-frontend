@@ -15,8 +15,9 @@ import ProfileScreen from './screens/ProfileScreen'
 import { AppRegistry } from "react-native"
 import App from "./App"
 import { name as appName } from "./app.json"  
+import PostViewScreen from './screens/PostViewScreen'
+import UserScreen from './screens/UserScreen'
 AppRegistry.registerComponent(appName, () => App)
-
 
 
  const AppContainer = createStackNavigator({
@@ -115,6 +116,13 @@ AppRegistry.registerComponent(appName, () => App)
 
         postModal: {
             screen: PostScreen
+        },
+        commentsModal: {
+            screen: PostViewScreen
+        },
+        profileModal: {
+            screen: UserScreen
+            
         }
 
     },

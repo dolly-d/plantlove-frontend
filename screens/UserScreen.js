@@ -14,10 +14,10 @@ export default class ProfileScreen extends React.Component {
         postsArray: []
     };
 
-    unsubscribe = null;
+    u
 
     componentDidMount() {
-        const user = this.props.uid || Fire.shared.uid;
+        const user = this.props.navigation.state.params.otherParam.uid
         const { navigation } = this.props;
         this.unsubscribe = Fire.shared.firestore
             .collection("users")
@@ -33,11 +33,6 @@ export default class ProfileScreen extends React.Component {
         });
     }
 
-    componentWillUnmount() {
-        this.unsubscribe();
-    }
-
-
     state = {
         user: {
 
@@ -47,25 +42,10 @@ export default class ProfileScreen extends React.Component {
             avatar: undefined,
             following: [],
             followers: []
-        },
-        errorMessage: false
+        }
+        
     };
 
-    handlePickAvatar = async () => {
-        UserPermissions.getCameraPermission()
-
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing :true,
-            aspect: [4, 3]
-        })
-       
-
-        if (!result.cancelled){
-            this.setState({user: {...this.state.user, avatar: result.uri} })
-        }
-    }   
-    
     fetchPost =()=>{
         if(!firebase.apps.length){
             firebase.initializeApp(firebaseKeys)
@@ -90,10 +70,21 @@ export default class ProfileScreen extends React.Component {
 
     }
 
-   
+
+    addFollows = (post) => {
+        const db = firebase.firestore()
+        let userId = firebase.auth().currentUser.uid
+        let followingId = post.uid
+        const followUserRef = db.collection('users').doc(userId)
+        const followingRef =  db.collection('users').doc(followingId) 
+        
+        followUserRef.update({following: firebase.firestore.FieldValue.arrayUnion(followingId)})
+        followingRef.update({followers: firebase.firestore.FieldValue.arrayUnion(userId)})
+
+    }
 
     render() {
-        const uid = firebase.auth().currentUser.uid
+        const uid = this.props.navigation.state.params.otherParam.uid
         const render = this.state.postsArray !== undefined ? (
              this.state.postsArray.map((post) => {
                 if (post.uid === uid){
@@ -116,15 +107,12 @@ export default class ProfileScreen extends React.Component {
                         <Image source={{ uri: this.state.user.avatar }} style={styles.avatar} />
                     </View>
                     <Text style={styles.name}>{this.state.user.name}</Text>
-                    <Button
-                    onPress={() => {
-                        Fire.shared.signOut();
-                    }}
-                    title="Log out"
-                    />
-                    {/* <TouchableOpacity>
-                        <Ionicons name='ios-more' size={30} color='D8D9DB'> </Ionicons>
-                    </TouchableOpacity> */}
+                   
+                    {firebase.auth().currentUser.uid === this.props.navigation.state.params.otherParam.uid ? null: <TouchableOpacity onPress={() => {this.addFollows
+                        (this.props.navigation.state.params.otherParam)}}>
+                         <Ionicons name='ios-person-add' size={24} color='#73788B' />
+                       </TouchableOpacity>}
+                    
                 </View>
                
                 <View style={styles.statsContainer}>
@@ -207,7 +195,6 @@ const styles = StyleSheet.create({
         flex: 1, 
         flexDirection: 'row', 
         flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: 'center'
       }
 });
