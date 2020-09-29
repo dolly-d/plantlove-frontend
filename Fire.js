@@ -94,6 +94,7 @@ class Fire {
                 avatar: user.avatar || '',
                 following: [],
                 followers: [],
+                favorites: [],
                 uid: this.uid
             });
 

@@ -47,7 +47,8 @@ export default class HomeScreen extends React.Component {
         postsArray: [],
         usersArray: [],
         comment: "",
-        pickPost: []
+        pickPost: [],
+        clicked: false
     }
     
     componentDidMount(){
@@ -102,6 +103,7 @@ export default class HomeScreen extends React.Component {
         db.collection('posts').doc(uid).update({
             likes: post.likes += 1     
         })
+        this.setState({clicked: true})
         this.fetchPost()
     }
 
@@ -125,6 +127,10 @@ export default class HomeScreen extends React.Component {
                 )
             }
         })
+
+        const changeColor = () => {
+            
+        }
     
 
         return(
@@ -147,7 +153,7 @@ export default class HomeScreen extends React.Component {
                     <View style={{flexDirection: 'row'}}>
                     <Text style={styles.posts}>{post.likes} {''}</Text>
                     <TouchableOpacity onPress={() => this.likesHandler(post)}>
-                        <Ionicons name='ios-heart' size={24} color='#73788B' style={{marginRight: 16}} />
+                     <Ionicons name={this.state.clicked ? 'ios-heart' : 'ios-heart-empty'} size={24} color='#73788B' style={{marginRight: 16}} />
                         
                     </TouchableOpacity>   
 

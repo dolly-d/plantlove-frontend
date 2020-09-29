@@ -10,15 +10,18 @@ import {
     SafeAreaView,
     TextInput
 } from "react-native";
-import { SearchBar } from 'react-native-elements';
+import {Ionicons} from '@expo/vector-icons'
 import { ListItem, Avatar } from 'react-native-elements'
+import firebase from 'firebase'
+
 
 
 
 export default class MessageScreen extends React.Component {
     state = {
         search: "Maple",
-        plantsArray: []
+        plantsArray: [],
+        favorites: []
       };
 
       componentDidMount() {
@@ -38,24 +41,40 @@ export default class MessageScreen extends React.Component {
       }) 
         }
 
+    checkHandler = (id)=>{
+        this.setState({
+        favorites: [...this.state.favorites, id]
+        })
+    }
+
+    postFavorites= () => {
+        const uid = firebase.auth().currentUser.uid
+        const db = firebase.firestore();
+        db.collection('users').doc(uid).update({
+            favorites: this.state.favorites
+        })
+        this.setState({favorites: []})
+    }
+
     render() {
         const { search } = this.state;
-
+        console.log(this.state.favorites)
         const plant = this.state.plantsArray.map(plant=> {
             return(
             <>
             <ListItem bottomDivider>
                 <Avatar source={{uri: plant.image_url === null ? 'https://cnet1.cbsistatic.com/img/KSgz75jjXU5AjvSuVkTIfOxi5WU=/940x0/2018/07/13/b5bb5e2c-daaa-4924-82f1-899a9507dc8d/smart-home-generic-6-6-18-0780.jpg' : plant.image_url }} />
                 <ListItem.Content>
+                
                 <ListItem.Title>{plant.common_name}</ListItem.Title>
-                <ListItem.Subtitle>{plant.scientific_name}</ListItem.Subtitle>
+                <ListItem.Subtitle>{plant.scientific_name}</ListItem.Subtitle>               
                 </ListItem.Content>
-                <ListItem.Chevron />
+                <TouchableOpacity onPress={() => {this.checkHandler(plant.id)}} 
+                style={styles.submitButton}>
+                    <Text style={styles.submitButtonText}>Add</Text>
+                </TouchableOpacity>
+                
             </ListItem>
-            {/* <Text>{plant.common_name}</Text>
-            <Image source={{uri: plant.image_url === null ? 'https://cnet1.cbsistatic.com/img/KSgz75jjXU5AjvSuVkTIfOxi5WU=/940x0/2018/07/13/b5bb5e2c-daaa-4924-82f1-899a9507dc8d/smart-home-generic-6-6-18-0780.jpg' : plant.image_url }} style={{height: 200,
-        borderRadius: 5,
-        marginVertical: 16}}/> */}
             </>
             )
         })
@@ -77,6 +96,9 @@ export default class MessageScreen extends React.Component {
             <ScrollView>
             {plant}
             </ScrollView>
+            {this.state.favorites.length > 0 ? 
+            <Button title = "submit" onPress={()=>{this.postFavorites()}}></Button>
+         : null}
             </SafeAreaView>
         )
     }
