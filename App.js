@@ -9,9 +9,10 @@ import LoginScreen from './screens/LoginScreen'
 import RegistrationScreen from './screens/RegistrationScreen'
 import HomeScreen from './screens/HomeScreen'
 import SearchScreen from './screens/SearchScreen'
-import NotificationsScreen from './screens/NotificationsScreen'
+import EditUserScreen from './screens/EditUserScreen'
 import PostScreen from './screens/PostScreen'
 import ProfileScreen from './screens/ProfileScreen'
+import FavoriteScreen from './screens/FavoriteScreen'
 import { AppRegistry } from "react-native"
 import App from "./App"
 import { name as appName } from "./app.json"  
@@ -34,16 +35,16 @@ AppRegistry.registerComponent(appName, () => App)
                 }
             },
         
-            // Search: {
-            //     screen: SearchScreen,
-            //     navigationOptions: {
-            //         tabBarIcon: ({ tintColor}) => <Ionicons 
-            //         name="ios-search" 
-            //         size={24} 
-            //         color={tintColor} /> 
+            Search: {
+                screen: SearchScreen,
+                navigationOptions: {
+                    tabBarIcon: ({ tintColor}) => <Ionicons 
+                    name="ios-search" 
+                    size={24} 
+                    color={tintColor} /> 
         
-            //     }
-            // },
+                }
+            },
         
             Post: {
                 screen: PostScreen,
@@ -54,7 +55,7 @@ AppRegistry.registerComponent(appName, () => App)
                     size={35} 
                     color='#567353' 
                     style={{
-                        shadowColor: '#E9446A', 
+                        shadowColor: '#567353', 
                         shadowOffset: {width: 0, height: 0},
                         shadowRadius: 10, 
                         shadowOpacity: 0.3
@@ -64,17 +65,17 @@ AppRegistry.registerComponent(appName, () => App)
                 }
                 },
         
-            // Notifications: {
-            //     screen: NotificationsScreen,
-            //     navigationOptions: {
-            //         tabBarIcon: ({ tintColor}) => 
-            //         <Ionicons 
-            //         name="ios-notifications" 
-            //         size={24} 
-            //         color={tintColor} /> 
+            Favorites: {
+                screen: FavoriteScreen,
+                navigationOptions: {
+                    tabBarIcon: ({ tintColor}) => 
+                    <Ionicons 
+                    name="ios-heart" 
+                    size={24} 
+                    color={tintColor} /> 
 
-            //     }
-            //     },
+                }
+                },
 
                 Profile: {
                     screen: ProfileScreen,
@@ -123,6 +124,9 @@ AppRegistry.registerComponent(appName, () => App)
         profileModal: {
             screen: UserScreen
             
+        },
+        editModal: {
+            screen: EditUserScreen
         }
 
     },

@@ -88,7 +88,6 @@ export default class ProfileScreen extends React.Component {
         const render = this.state.postsArray !== undefined ? (
              this.state.postsArray.map((post) => {
                 if (post.uid === uid){
-                    console.log(this.state.postsArray.map(post=>(post.uid === uid).length))
                     return (
                         <>
                     <Image source={{ uri: post.image }} style={styles.photo} />

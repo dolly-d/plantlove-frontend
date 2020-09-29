@@ -153,7 +153,7 @@ export default class HomeScreen extends React.Component {
 
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('commentsModal',
                     {otherParam: post})}> 
-                        <Ionicons name='ios-chatboxes' size={24} color='#73788B' />
+                        <Ionicons name='ios-chatbubbles' size={25} color='#73788B' />
                     </TouchableOpacity>
                     </View>
                </View>

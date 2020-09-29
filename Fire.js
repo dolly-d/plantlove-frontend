@@ -45,7 +45,6 @@ class Fire {
                 uid: this.uid,
                 timestamp: this.timestamp,
                 image: remoteUri,
-                comments: [],
                 likes: 0
             })
             .then(ref => {
@@ -91,6 +90,7 @@ class Fire {
             db.set({
                 name: user.name,
                 email: user.email,
+                bio: user.bio,
                 avatar: user.avatar || '',
                 following: [],
                 followers: [],

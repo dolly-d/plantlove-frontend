@@ -10,9 +10,10 @@ import {
     ScrollView, 
     TouchableHighlight,
     TouchableOpacity, 
-    SafeAreaView} from "react-native";
+    SafeAreaView,
+    TextInput
+} from "react-native";
 import {Ionicons} from '@expo/vector-icons'
-import { TextInput } from 'react-native-paper'
 import { ListItem } from 'react-native-elements'
 import moment from 'moment'
 

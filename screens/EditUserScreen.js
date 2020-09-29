@@ -1,26 +1,22 @@
 import React from 'react'
-import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar} from 'react-native';
+import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar, Button} from 'react-native';
 import {Ionicons} from '@expo/vector-icons'
 import Fire from '../Fire'
+import firebase from 'firebase'
 import UserPermissions from '../utilities/UserPermissions'
 import * as ImagePicker from 'expo-image-picker'
 import { shadow } from 'react-native-paper';
 
-export default class RegistrationScreen extends React.Component {
-    static navigationOptions = {
-        headerShown: false
-    }
+export default class EditUserScreen extends React.Component {
+
     state = {
         user: {
-
-            name: "",
-            bio: "",
-            email: "",
-            password: "",
-            avatar: undefined
-        },
-        errorMessage: false
+            name: this.props.navigation.state.params.otherParam.name,
+            bio: this.props.navigation.state.params.otherParam.bio,
+            avatar: this.props.navigation.state.params.otherParam.avatar
+        }
     };
+
     handlePickAvatar = async () => {
         UserPermissions.getCameraPermission()
 
@@ -30,36 +26,31 @@ export default class RegistrationScreen extends React.Component {
             aspect: [4, 3]
         })
        
-
         if (!result.cancelled){
             this.setState({user: {...this.state.user, avatar: result.uri} })
         }
     }    
-    
+
     handleSignUp = () =>{
-        Fire.shared.createUser(this.state.user)
+        const uid = this.props.navigation.state.params.otherParam.uid
+        const db = firebase.firestore();
+        db.collection('users').doc(uid).update({
+            name: this.state.user.name,
+            bio: this.state.user.bio,
+            avatar: this.state.user.avatar   
+        })
+        this.props.navigation.goBack()
     }  
 
-    render() {
-        return(
-            <View style={styles.container}>
-                <StatusBar barStyle="light-content"> </StatusBar>
-                <Image 
-                source={require("../assets/plantbae1.png")} 
-                style={{marginTop: 76, marginRight: 20, alignItems: "center", width: "60%", height: "10%"}}
-                ></Image>
-                
-                <Image 
-                source={require('../assets/authFooter.png')} 
-                style={{position: 'absolute', bottom: -325, right: -225}}
-                ></Image>
+    
 
-                <View style={{ position: "absolute", top: 154, alignItems: "center", width: "100%", flex: 1 }}>
-                    <Text style={styles.greeting}>{`Hello!\nSign up to get started.`}</Text>
-                    
-                </View>
-                
-                <TouchableOpacity style={styles.avatarPlaceholder} onPress={this.handlePickAvatar}>
+    render() {
+        
+        return(
+       
+            <View style={styles.container}>
+            
+            <TouchableOpacity style={styles.avatarPlaceholder} onPress={this.handlePickAvatar}>
                         <Image source={{uri: this.state.user.avatar}} style={styles.avatar}/>
                         <Ionicons 
                         name='ios-add' 
@@ -69,55 +60,46 @@ export default class RegistrationScreen extends React.Component {
                         </Ionicons>
                 </TouchableOpacity>
                     
-                
-                <View style={styles.errorMessage}>
-                    {this.state.errorMessage && <Text style={styles.error}>{this.state.errorMessage}</Text>}
-                </View>
+        
 
                 <View style={styles.form}> 
                     <View>
-                        <Text style={styles.inputTitle}> Full Name</Text>
+                        <Text style={styles.inputTitle}> Name</Text>
                             <TextInput
                                 style={styles.input}
                                 autoCapitalize="none"
                                 onChangeText={name => this.setState({ user: {...this.state.user, name} })}
                                 value={this.state.user.name}
                             
-                            ></TextInput>                      
-                    </View>
-                
-
-                    <View style={{ marginTop: 32 }}>
-                        <Text style={styles.inputTitle}>Email</Text>
+                            ></TextInput>  
+    
+                        <View style={{ marginTop: 32 }}>
+                        <Text style={styles.inputTitle}>Bio</Text>
                         <TextInput style={styles.input} 
-                        autoCapitalize="none" 
-                        onChangeText={email => this.setState({ user: {...this.state.user, email} })}
-                        value={this.state.user.email}
+                            autoCapitalize="none" 
+                            onChangeText={bio => this.setState({ user: {...this.state.user, bio} })}
+                            value={this.state.user.bio}
                         ></TextInput>
-                    </View>
+              
 
-                    <View style={{marginTop: 32}}>
-                        <Text style={styles.inputTitle}>Password</Text>
-                        <TextInput style={styles.input} secureTextEntry autoCapitalize="none"
-                        onChangeText={password => this.setState({ user: {...this.state.user, password}})}
-                        value={this.state.user.password}
-                        
-                        ></TextInput>
+                    </View>           
                     </View>
-                </View>
-                
-                <TouchableOpacity style={styles.button} onPress={this.handleSignUp}>
-                    <Text style={{ color: "#FFF", fontWeight: "500"}}>Sign Up!</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity 
-                style={{ alignSelf: "center", marginTop: 32}} 
-                onPress={() => this.props.navigation.navigate("Login")}>
-                    <Text style={{ color: "#414959", fontSize: 20}}>
-                       Already a plantbae? <Text style={{ fontWeight: "500", color: "#1A4316"}}>Log In! </Text>
-                    </Text>
-                </TouchableOpacity>
             </View>
+
+            <TouchableOpacity style={styles.button} onPress={this.handleSignUp}>
+                    <Text style={{ color: "#FFF", fontWeight: "500"}}>Confirm Edit</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.button} onPress={() => {
+                        Fire.shared.signOut();
+                    }}>
+                    <Text style={{ color: "red", fontWeight: "500"}}>Sign Out</Text>
+                </TouchableOpacity>
+
+        
+
+            </View>
+            
         )
     }
 }
@@ -178,7 +160,8 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         height: 52,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        marginBottom: 20
     },
 
     avatarPlaceholder: {
@@ -202,6 +185,4 @@ const styles = StyleSheet.create({
         
         
     }
-    
-
 })
