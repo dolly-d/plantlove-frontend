@@ -20,8 +20,7 @@ import firebase from 'firebase'
 export default class MessageScreen extends React.Component {
     state = {
         search: "Maple",
-        plantsArray: [],
-        favorites: []
+        plantsArray: []
       };
 
       componentDidMount() {
@@ -41,24 +40,29 @@ export default class MessageScreen extends React.Component {
       }) 
         }
 
-    checkHandler = (id)=>{
-        this.setState({
-        favorites: [...this.state.favorites, id]
-        })
-    }
 
-    postFavorites= () => {
-        const uid = firebase.auth().currentUser.uid
-        const db = firebase.firestore();
-        db.collection('users').doc(uid).update({
-            favorites: this.state.favorites
+
+    favoriteHandler = (plant)=>{ 
+        return new Promise((res, rej) => {
+            const uid = firebase.auth().currentUser.uid;
+            const db = firebase.firestore();
+            db.collection("plants")
+            .add({
+                plant: plant,
+                uid: uid,
+
+            })
+            .then(ref => {
+                res(ref)
+            })
+            .catch(error => {
+                rej(error)
+            })
         })
-        this.setState({favorites: []})
+        
     }
 
     render() {
-        const { search } = this.state;
-        console.log(this.state.favorites)
         const plant = this.state.plantsArray.map(plant=> {
             return(
             <>
@@ -69,7 +73,7 @@ export default class MessageScreen extends React.Component {
                 <ListItem.Title>{plant.common_name}</ListItem.Title>
                 <ListItem.Subtitle>{plant.scientific_name}</ListItem.Subtitle>               
                 </ListItem.Content>
-                <TouchableOpacity onPress={() => {this.checkHandler(plant.id)}} 
+                <TouchableOpacity onPress={() => {this.favoriteHandler(plant)}} 
                 style={styles.submitButton}>
                     <Text style={styles.submitButtonText}>Add</Text>
                 </TouchableOpacity>
@@ -96,9 +100,6 @@ export default class MessageScreen extends React.Component {
             <ScrollView>
             {plant}
             </ScrollView>
-            {this.state.favorites.length > 0 ? 
-            <Button title = "submit" onPress={()=>{this.postFavorites()}}></Button>
-         : null}
             </SafeAreaView>
         )
     }

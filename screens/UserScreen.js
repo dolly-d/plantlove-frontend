@@ -14,7 +14,6 @@ export default class ProfileScreen extends React.Component {
         postsArray: []
     };
 
-    u
 
     componentDidMount() {
         const user = this.props.navigation.state.params.otherParam.uid

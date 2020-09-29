@@ -86,7 +86,6 @@ export default class ProfileScreen extends React.Component {
           return doc.data(), { ...doc.data(), ["id"]: id };
         });
         this.setState({ postsArray: data });
-        // console.log('MY DATA ===>', this.state.postsArray)
       });
   };
 
@@ -99,7 +98,6 @@ export default class ProfileScreen extends React.Component {
 
   render() {
     const uid = firebase.auth().currentUser.uid;
-    // console.log(firebase.auth().currentUser)
     const render =
       this.state.postsArray !== undefined
         ? this.state.postsArray.map((post) => {
@@ -111,10 +109,9 @@ export default class ProfileScreen extends React.Component {
                       this.postHandler(post);
                     }}
                   >
-                    <Image source={{ uri: post.image }} style={styles.photo} />
                     <Ionicons name="ios-close" size={20} color="D8D9DB">
-                      {" "}
                     </Ionicons>
+                    <Image source={{ uri: post.image }} style={styles.photo} />
                   </TouchableOpacity>
                 </>
               );

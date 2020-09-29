@@ -18,6 +18,7 @@ import App from "./App"
 import { name as appName } from "./app.json"  
 import PostViewScreen from './screens/PostViewScreen'
 import UserScreen from './screens/UserScreen'
+import PlantScreen from './screens/PlantScreen'
 AppRegistry.registerComponent(appName, () => App)
 
 
@@ -127,6 +128,9 @@ AppRegistry.registerComponent(appName, () => App)
         },
         editModal: {
             screen: EditUserScreen
+        },
+        plantModal: {
+            screen: PlantScreen
         }
 
     },
