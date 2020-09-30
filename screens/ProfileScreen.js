@@ -119,7 +119,8 @@ export default class ProfileScreen extends React.Component {
           })
         : null;
 
-    return (
+        return (
+
         <SafeAreaView>
             <View style={styles.header}>
                 <TouchableOpacity onPress={()=>this.props.navigation.navigate('editModal',
@@ -145,8 +146,8 @@ export default class ProfileScreen extends React.Component {
 
         <View style={styles.statsContainer}>
           <View style={styles.stat}>
-            <Text style={styles.statAmount}>3</Text>
-            <Text style={styles.statTitle}>Posts</Text>
+    {/* <Text style={styles.statAmount}></Text>
+            <Text style={styles.statTitle}>Posts</Text> */}
           </View>
           <View style={styles.stat}>
             <Text style={styles.statAmount}>

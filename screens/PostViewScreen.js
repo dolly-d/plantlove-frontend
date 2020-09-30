@@ -130,7 +130,7 @@ export default class PostViewScreen extends React.Component {
 
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                        <Ionicons name='md-arrow-back' size={24} color='#D8D9DB'></Ionicons>
+                        <Ionicons name='ios-undo' size={24} color='#D8D9DB'></Ionicons>
                     </TouchableOpacity>
                         <Text style={{fontWeight: '500'}}> Comments </Text>
                 </View>

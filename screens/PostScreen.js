@@ -37,7 +37,7 @@ export default class PostScreen extends React.Component {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [4, 3]
+            aspect: [5, 4]
         })
 
         if(!result.cancelled) {
@@ -99,8 +99,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     avatar: {
-        width: 48,
-        height: 48,
+        width: 50,
+        height: 50,
         borderRadius: 24,
         marginRight: 16
 
@@ -108,5 +108,6 @@ const styles = StyleSheet.create({
     photo: {
         alignItems: 'flex-end',
         marginHorizontal: 32
+
     }
 })

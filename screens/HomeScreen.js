@@ -128,11 +128,6 @@ export default class HomeScreen extends React.Component {
             }
         })
 
-        const changeColor = () => {
-            
-        }
-    
-
         return(
         
             <View style={styles.feedItem}>
@@ -153,7 +148,7 @@ export default class HomeScreen extends React.Component {
                     <View style={{flexDirection: 'row'}}>
                     <Text style={styles.posts}>{post.likes} {''}</Text>
                     <TouchableOpacity onPress={() => this.likesHandler(post)}>
-                     <Ionicons name={this.state.clicked ? 'ios-heart' : 'ios-heart-empty'} size={24} color='#73788B' style={{marginRight: 16}} />
+                     <Ionicons name='ios-heart' size={24} color='#73788B' style={{marginRight: 16}} />
                         
                     </TouchableOpacity>   
 

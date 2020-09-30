@@ -24,6 +24,14 @@ export default class FavoriteScreen extends Component {
   };
 
   componentDidMount() {
+    const { navigation } = this.props;
+    this.fetchPlants()
+    this.focusListener = navigation.addListener('didFocus', () => {
+    this.fetchPlants()
+    })
+  }
+
+  fetchPlants =()=>{
     firebase
       .firestore()
       .collection("plants")

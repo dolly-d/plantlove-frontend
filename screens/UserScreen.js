@@ -99,6 +99,7 @@ export default class ProfileScreen extends React.Component {
   
 
         return (
+            // <View style={styles.header}>
             <View style={styles.container}>
                 <View style={{ marginTop: 64, alignItems: "center" }}>
                     <View style={styles.avatarContainer}>
@@ -115,7 +116,7 @@ export default class ProfileScreen extends React.Component {
                
                 <View style={styles.statsContainer}>
                     <View style={styles.stat}>
-                <Text style={styles.statAmount}>{}</Text>
+                <Text style={styles.statAmount}>3</Text>
                         <Text style={styles.statTitle}>Posts</Text>
                     </View>
                     <View style={styles.stat}>
@@ -125,6 +126,7 @@ export default class ProfileScreen extends React.Component {
                     <View style={styles.stat}>
                 <Text style={styles.statAmount}>{this.state.user.following.length}</Text>
                         <Text style={styles.statTitle}>Following</Text>
+                        {/* </View> */}
                     </View>
                 </View>
 
@@ -143,6 +145,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
+    header: {
+        flexDirection: 'row-reverse',
+        justifyContent: 'space-between',
+        paddingHorizontal: 32,
+        paddingVertical: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: '#D8D9DB'
+        },
     profile: {
         marginTop: 30,
         alignItems: "center",
@@ -151,7 +161,9 @@ const styles = StyleSheet.create({
     avatarContainer: {
         shadowColor: "#151734",
         shadowRadius: 30,
-        shadowOpacity: 0.4
+        shadowOpacity: 0.4,
+        marginLeft: 15,
+        marginTop: 20,
     },
     avatar: {
         width: 90,
