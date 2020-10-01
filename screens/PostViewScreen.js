@@ -130,9 +130,9 @@ export default class PostViewScreen extends React.Component {
 
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                        <Ionicons name='ios-undo' size={24} color='#D8D9DB'></Ionicons>
+                        <Ionicons name='ios-undo' size={24} color='#567353'></Ionicons>
                     </TouchableOpacity>
-                        <Text style={{fontWeight: '500'}}> Comments </Text>
+                        
                 </View>
         
                 <ScrollView>
@@ -143,7 +143,8 @@ export default class PostViewScreen extends React.Component {
                 <View style={{flexDirection:'row', alignItems: "flex-end"}}>
                 <TextInput
                     style={styles.input}
-                    label="Comment"
+                    clearButtonMode= 'while-editing'
+                    placeholder={'Comment'}
                     onChangeText={(text) => this.setState({
                         comment: text
                     })}

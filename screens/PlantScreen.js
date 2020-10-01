@@ -12,11 +12,12 @@ export default class PlantScreen extends React.Component {
     render(){
         return(
             <SafeAreaView>
+                <View style={styles.header}> 
+                <Text style={styles.moreInfo} color='#567353'> More Info </Text>
                  <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                         <Ionicons name='ios-undo' size={24} color='#567353'></Ionicons>
                     </TouchableOpacity>
-                <View style={styles.header}> 
-                <Text style={styles.moreInfo} > More Info </Text></View>
+                    </View>
                 
                 
             <View style={styles.plantsContainer}>

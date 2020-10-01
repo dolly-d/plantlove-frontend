@@ -167,7 +167,8 @@ export default class HomeScreen extends React.Component {
         
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <Text style={styles.headerTitle}>Feed</Text>
+                    
+                    <Text style={styles.headerTitle} >Plantbaes</Text>
                     
                 </View>
 
@@ -207,7 +208,7 @@ const styles = StyleSheet.create({
     },
     headerTitle: {
         fontSize: 20,
-        fontWeight: '500'
+        color: '#567353'
     },
     feed: {
         marginHorizontal: 16

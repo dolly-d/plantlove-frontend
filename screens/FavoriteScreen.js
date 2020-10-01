@@ -69,11 +69,14 @@ export default class FavoriteScreen extends Component {
     });
 
     return (
-      <SafeAreaView>
+        <>
+          <View style={styles.header}>
+                        <Text style={styles.headerTitle} > Favorites </Text>
+                </View>
         <ScrollView>
           <View style={styles.itemContainer}>{plants}</View>
         </ScrollView>
-      </SafeAreaView>
+      </>
     );
   }
 }
@@ -81,13 +84,23 @@ export default class FavoriteScreen extends Component {
 const styles = StyleSheet.create({
   container: {},
   header: {
-    flexDirection: "row-reverse",
-    justifyContent: "space-between",
-    paddingHorizontal: 32,
-    paddingVertical: 5,
+    paddingTop: 64,
+    paddingBottom: 16,
+    backgroundColor: '#FFF',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: "#D8D9DB",
-  },
+    borderBottomColor: '#EBECF4',
+    shadowColor: '#454D65',
+    shadowOffset: {height: 5},
+    shadowRadius: 15,
+    shadowOpacity: 0.2,
+    zIndex: 10
+},
+headerTitle: {
+    fontSize: 20,
+    color: '#567353'
+},
   profile: {
     flexDirection: "row",
     alignItems: "stretch",
@@ -106,8 +119,8 @@ const styles = StyleSheet.create({
     borderRadius: 68,
   },
   photo: {
-    width: 60,
-    height: 60,
+    width: 80,
+    height: 80,
     borderRadius: 5,
     margin: 5,
   },
@@ -144,6 +157,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 10
   },
   edit: {
     marginLeft: 310,

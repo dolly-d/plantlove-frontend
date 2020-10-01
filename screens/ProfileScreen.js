@@ -93,7 +93,7 @@ export default class ProfileScreen extends React.Component {
   postHandler = (post) => {
     const id = post.id;
     const db = firebase.firestore();
-    db.collection("posts").doc(id).delete(); //
+    db.collection("posts").doc(id).delete(); 
     this.fetchPost();
   };
 

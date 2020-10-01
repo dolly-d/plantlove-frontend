@@ -31,7 +31,8 @@ AppRegistry.registerComponent(appName, () => App)
                     tabBarIcon: ({ tintColor}) => <Ionicons 
                     name="ios-home" 
                     size={24} 
-                    color={tintColor} /> 
+                    color={tintColor} 
+                    /> 
    
                 }
             },
@@ -90,6 +91,15 @@ AppRegistry.registerComponent(appName, () => App)
                     }
                 }
         },
+        {
+            tabBarOptions: {
+                activeTintColor: '#567353',
+                inactiveTintColor: '#B8BBc4',
+                showLabel: false
+            },
+            
+            initialRouteName: 'Profile'
+        },
         {   
                 defaultNavigationOptions: {
                     tabBarOnPress: ({ navigation, defaultHandler}) => {
@@ -102,17 +112,8 @@ AppRegistry.registerComponent(appName, () => App)
                 }
 
 
-        },
+        }
 
-            {
-                tabBarOptions: {
-                    activeTintColor: '#161F3D',
-                    inactiveTintColor: '#B8BBc4',
-                    showLabel: false
-                },
-                
-                initialRouteName: 'Profile'
-            }
         
         ),
 

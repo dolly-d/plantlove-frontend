@@ -67,7 +67,7 @@ export default class MessageScreen extends React.Component {
             return(
             <>
             <ListItem bottomDivider>
-                <Avatar source={{uri: plant.image_url === null ? 'https://cnet1.cbsistatic.com/img/KSgz75jjXU5AjvSuVkTIfOxi5WU=/940x0/2018/07/13/b5bb5e2c-daaa-4924-82f1-899a9507dc8d/smart-home-generic-6-6-18-0780.jpg' : plant.image_url }} />
+                <Avatar size="large" rounded source={{uri: plant.image_url === null ? 'https://cnet1.cbsistatic.com/img/KSgz75jjXU5AjvSuVkTIfOxi5WU=/940x0/2018/07/13/b5bb5e2c-daaa-4924-82f1-899a9507dc8d/smart-home-generic-6-6-18-0780.jpg' : plant.image_url }} />
                 <ListItem.Content>
                 
                 <ListItem.Title>{plant.common_name}</ListItem.Title>
@@ -88,6 +88,8 @@ export default class MessageScreen extends React.Component {
             <TextInput
                 style={styles.input}
                 label="Search"
+                clearButtonMode= 'while-editing'
+                placeholder={'Search'}
                 onChangeText={(text) => this.setState({
                     search: text
                 })}
