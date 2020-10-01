@@ -32,7 +32,7 @@ export default class MessageScreen extends React.Component {
       };
 
       fetchPlants =() => {
-        fetch(`https://trefle.io/api/v1/plants/search?token=aYCdsl8fdCSxw9twFiFBvYnoZGaxFqSVD0lXApDWnnY&q=${this.state.search}&page=1&limit=5`)
+        fetch(`https://trefle.io/api/v1/plants/search?token=aYCdsl8fdCSxw9twFiFBvYnoZGaxFqSVD0lXApDWnnY&q=${this.state.search}&page=1&limit=6`)
       .then((response) => response.json())
       .then((json) => {
         this.setState({ 

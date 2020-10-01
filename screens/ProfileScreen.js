@@ -25,6 +25,7 @@ export default class ProfileScreen extends React.Component {
 
   unsubscribe = null;
 
+
   componentDidMount() {
     const user = this.props.uid || Fire.shared.uid;
     const { navigation } = this.props;
@@ -85,23 +86,22 @@ export default class ProfileScreen extends React.Component {
           let id = doc.id;
           return doc.data(), { ...doc.data(), ["id"]: id };
         });
-        this.setState({ postsArray: data });
+        this.setState({ postsArray: data.filter((post) => this.state.user.uid === post.uid) });
       });
   };
 
   postHandler = (post) => {
     const id = post.id;
     const db = firebase.firestore();
-    db.collection("posts").doc(id).delete();
+    db.collection("posts").doc(id).delete(); //
     this.fetchPost();
   };
 
   render() {
-    const uid = firebase.auth().currentUser.uid;
     const render =
       this.state.postsArray !== undefined
         ? this.state.postsArray.map((post) => {
-            if (post.uid === uid) {
+            /*if (post.uid === uid) {*/
               return (
                 <>
                   <TouchableOpacity
@@ -115,7 +115,7 @@ export default class ProfileScreen extends React.Component {
                   </TouchableOpacity>
                 </>
               );
-            }
+            /*}*/
           })
         : null;
 
@@ -146,8 +146,8 @@ export default class ProfileScreen extends React.Component {
 
         <View style={styles.statsContainer}>
           <View style={styles.stat}>
-    {/* <Text style={styles.statAmount}></Text>
-            <Text style={styles.statTitle}>Posts</Text> */}
+        <Text style={styles.statAmount}>{(this.state.postsArray && this.state.postsArray.length) ? this.state.postsArray.length : 0}</Text>
+            <Text style={styles.statTitle}>Posts</Text>
           </View>
           <View style={styles.stat}>
             <Text style={styles.statAmount}>

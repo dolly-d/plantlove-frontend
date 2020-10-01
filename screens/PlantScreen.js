@@ -17,11 +17,14 @@ export default class PlantScreen extends React.Component {
                     </TouchableOpacity>
                 <View style={styles.header}> 
                 <Text style={styles.moreInfo} > More Info </Text></View>
-        <Image source={ this.props.navigation.state.params.otherParam.image_url === null
-                      ? "https://cnet1.cbsistatic.com/img/KSgz75jjXU5AjvSuVkTIfOxi5WU=/940x0/2018/07/13/b5bb5e2c-daaa-4924-82f1-899a9507dc8d/smart-home-generic-6-6-18-0780.jpg"
-                      : this.props.navigation.state.params.otherParam.image_url}/> 
+                
+                
             <View style={styles.plantsContainer}>
+
             <View style={styles.plant}>     
+                <Image
+                        style={styles.photo}
+                        source={{uri: this.props.navigation.state.params.otherParam.image_url }}/> 
             <Text style={styles.plantStat}> Name: </Text> 
                 <Text style={styles.plantInfo}>{this.props.navigation.state.params.otherParam.common_name}</Text>
                 
@@ -34,6 +37,7 @@ export default class PlantScreen extends React.Component {
 
                 </View>
                 </View>
+                
             </SafeAreaView>
             
         )
@@ -72,6 +76,13 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         marginTop: 4,
         paddingBottom: 20
+      },
+      photo: {
+        width: 160,
+        height: 160,
+        borderRadius: 5,
+        margin: 5,
+        marginBottom: 10
       },
       moreInfo: {
         color: "#1A4316",

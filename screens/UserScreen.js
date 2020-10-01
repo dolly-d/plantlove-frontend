@@ -62,7 +62,7 @@ export default class ProfileScreen extends React.Component {
                 
                 
             })
-           this.setState({ postsArray: data })
+           this.setState({ postsArray: data.filter((post) => this.state.user.uid === post.uid)})
             // console.log('MY DATA ===>', this.state.postsArray)
         })
        
@@ -83,16 +83,16 @@ export default class ProfileScreen extends React.Component {
     }
 
     render() {
-        const uid = this.props.navigation.state.params.otherParam.uid
+        // const uid = this.props.navigation.state.params.otherParam.uid
         const render = this.state.postsArray !== undefined ? (
              this.state.postsArray.map((post) => {
-                if (post.uid === uid){
+                // if (post.uid === uid){
                     return (
                         <>
                     <Image source={{ uri: post.image }} style={styles.photo} />
                     </>
                 )
-                }
+                // }
              })
         ): null
 
@@ -116,8 +116,8 @@ export default class ProfileScreen extends React.Component {
                
                 <View style={styles.statsContainer}>
                     <View style={styles.stat}>
-                <Text style={styles.statAmount}>3</Text>
-                        <Text style={styles.statTitle}>Posts</Text>
+                 <Text style={styles.statAmount}>{(this.state.postsArray && this.state.postsArray.length) ? this.state.postsArray.length : 0}</Text>
+                        <Text style={styles.statTitle}>Posts</Text> 
                     </View>
                     <View style={styles.stat}>
                         <Text style={styles.statAmount}>{this.state.user.followers.length}</Text>
