@@ -10,30 +10,6 @@ class Fire {
     }
 
 
-    // componentDidMount(){
-    //     const posts = firebase.database.ref('posts')
-    //     posts.on('value',datasnap=>{
-    //      console.log(datasnap.val)
-    //     })
-    //  }
-
-    
-
-    addFollower = () => {
-        // note* update the newly followed user with your id as a follower
-    }
-
-    getUserById = (id) => {
-        // console.log('id', id)
-        // 1. query firebase db
-        // 2. return user by uid            
-    }
-
-    getAllFollowers = () => {
-
-        // returns array of all users followers
-    }
-
     addPost = async ({text, localUri}) => {
         const remoteUri = await this.uploadPhotoAsync(localUri, `photos/${this.uid}/${Date.now()}`)
 
@@ -77,8 +53,6 @@ class Fire {
         })
     }
     
-    //update user by id...query user...get user.id 
-    // sending your following user.followers.push()
 
     createUser = async user => {
         let remoteUri = null;

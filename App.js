@@ -98,7 +98,7 @@ AppRegistry.registerComponent(appName, () => App)
                 showLabel: false
             },
             
-            initialRouteName: 'Profile'
+            initialRouteName: 'Home'
         },
         {   
                 defaultNavigationOptions: {

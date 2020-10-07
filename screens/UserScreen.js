@@ -86,13 +86,12 @@ export default class ProfileScreen extends React.Component {
         // const uid = this.props.navigation.state.params.otherParam.uid
         const render = this.state.postsArray !== undefined ? (
              this.state.postsArray.map((post) => {
-                // if (post.uid === uid){
                     return (
                         <>
                     <Image source={{ uri: post.image }} style={styles.photo} />
                     </>
                 )
-                // }
+
              })
         ): null
 
