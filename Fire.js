@@ -21,7 +21,7 @@ class Fire {
                 uid: this.uid,
                 timestamp: this.timestamp,
                 image: remoteUri,
-                likes: 0
+                likes: []
             })
             .then(ref => {
                 res(ref)
@@ -99,8 +99,6 @@ class Fire {
         return Date.now()
     }
 }
-
-// export const db = firebase.firestore()
 
 Fire.shared = new Fire()
 export default Fire;

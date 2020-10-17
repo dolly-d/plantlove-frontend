@@ -56,7 +56,6 @@ export default class PostViewScreen extends React.Component {
                 
             })
            this.setState({ commentsArray: data })
-            // console.log('MY DATA ===>', this.state.commentsArray)
         })
     }
 
@@ -69,7 +68,7 @@ export default class PostViewScreen extends React.Component {
                 return doc.data();
             })
            this.setState({ usersArray: userData })
-            // console.log('MY DATA ===>', this.state.usersArray)
+           
         })
     }
 
@@ -107,7 +106,6 @@ export default class PostViewScreen extends React.Component {
 
     render() {
         const postid = this.props.navigation.state.params.otherParam.id
-        // console.log(this.state.commentsArray)
         const comments = this.state.commentsArray.map((comment) => {
             if (postid === comment.postid ){
                 return(

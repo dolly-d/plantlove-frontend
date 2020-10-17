@@ -1,9 +1,6 @@
 import React from 'react'
-// import Fire from '../Fire'
-// import {db} from '../Fire'
 import {View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Modal, TouchableHighlight, Button} from 'react-native'
 import {Ionicons} from '@expo/vector-icons'
-import { TextInput } from 'react-native-paper'
 import moment from 'moment'
 import firebaseKeys from '../firebase'
 import firebase from 'firebase'
@@ -48,7 +45,8 @@ export default class HomeScreen extends React.Component {
         usersArray: [],
         comment: "",
         pickPost: [],
-        clicked: false
+        clicked: false,
+
     }
     
     componentDidMount(){
@@ -91,22 +89,31 @@ export default class HomeScreen extends React.Component {
                 
             })
            this.setState({ postsArray: data })
-            // console.log('MY DATA ===>', this.state.postsArray)
+
         })
        
 
     }  
 
-    likesHandler = (post)=>{ 
-       const uid = post.id
-        const db = firebase.firestore();
-        db.collection('posts').doc(uid).update({
-            likes: post.likes += 1     
-        })
-        this.setState({clicked: true})
+    likesHandler = (post) => {
+        const db = firebase.firestore()
+        let userId = firebase.auth().currentUser.uid
+        let postId = post.id
+        const likesRef = db.collection('posts').doc(postId)
+        
+        likesRef.update({likes: firebase.firestore.FieldValue.arrayUnion(userId)})
+        this.fetchPost()
+
+    }
+    unLikeHandler = (post) => {
+        const db = firebase.firestore()
+        let userId = firebase.auth().currentUser.uid
+        let postId = post.id
+        const likesRef = db.collection('posts').doc(postId)
+        
+        likesRef.update({likes: firebase.firestore.FieldValue.arrayRemove(userId)})
         this.fetchPost()
     }
-
     
     renderPost = post => {
         const userAvatar = this.state.usersArray.map((user) => {
@@ -127,6 +134,7 @@ export default class HomeScreen extends React.Component {
                 )
             }
         })
+    
 
         return(
         
@@ -146,12 +154,21 @@ export default class HomeScreen extends React.Component {
                     <Image source={{uri: post.image}} style={styles.postImage} resizeMode="cover"/>
                
                     <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.posts}>{post.likes} {''}</Text>
-                    <TouchableOpacity onPress={() => this.likesHandler(post)}>
-                     <Ionicons name='ios-heart' size={24} color='#73788B' style={{marginRight: 16}} />
-                        
-                    </TouchableOpacity>   
-
+                    <Text style={styles.posts}>{post.likes.length} {''}</Text>
+                    
+                    
+                    {post.likes.find((likeId) => {
+                        return likeId === firebase.auth().currentUser.uid; 
+                        }) ? 
+                        <TouchableOpacity onPress={() => this.unLikeHandler(post)}>
+                        <Ionicons name='ios-heart' size={24} color='#567353' style={{marginRight: 16}}/> 
+                        </TouchableOpacity>   
+                        : 
+                        <TouchableOpacity onPress={() => this.likesHandler(post)}>
+                        <Ionicons name='ios-heart' size={24} color='#73788B' style={{marginRight: 16}} />
+                        </TouchableOpacity> 
+                        }
+                    
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('commentsModal',
                     {otherParam: post})}> 
                         <Ionicons name='ios-chatbubbles' size={25} color='#73788B' />
