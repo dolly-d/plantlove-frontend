@@ -1,6 +1,8 @@
 {
   "expo": {
     "name": "plantbae",
+    "scheme": "plantbae",
+    "privacy": "public",
     "slug": "plantbae",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,7 +19,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.plantlove.plantbae"
     },
     "web": {
       "favicon": "./assets/favicon.png"
