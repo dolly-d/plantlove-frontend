@@ -8,36 +8,6 @@ import { withNavigation } from 'react-navigation'
 import { render } from 'react-dom'
 require('firebase/firestore')
 
-
-// posts = [ 
-//     {
-//         id: '1',
-//         name: 'Jane',
-//         text: 'Hello? Is this working?',
-//         timestamp: 1569109273726,
-//         avatar: require('../assets/tempAvatar.jpg'),
-//         image: require('../assets/tempImage1.jpg')
-//     },
-//     {
-//         id: '2',
-//         name: 'Lisa',
-//         text: 'Shit! I hope so',
-//         timestamp: 1569109273726,
-//         avatar: require('../assets/tempAvatar.jpg'),
-//         image: require('../assets/tempImage2.jpg')
-//     },
-//     {
-//         id: '3',
-//         name: 'Kathy',
-//         text: 'Well...is it working?',
-//         timestamp: 1569109273726,
-//         avatar: require('../assets/tempAvatar.jpg'),
-//         image: require('../assets/tempImage4.jpg')
-//     }
-
-
-// ]
-
 export default class HomeScreen extends React.Component {
 
     state = {
