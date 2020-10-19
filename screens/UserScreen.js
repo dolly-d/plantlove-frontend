@@ -106,7 +106,6 @@ export default class ProfileScreen extends React.PureComponent {
   };
 
   render() {
-    console.log()
     const render =
       this.state.postsArray !== undefined
         ? this.state.postsArray.map((post) => {
