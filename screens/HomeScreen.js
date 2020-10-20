@@ -6,6 +6,7 @@ import firebaseKeys from '../firebase'
 import firebase from 'firebase'
 import { withNavigation } from 'react-navigation'
 import { render } from 'react-dom'
+import  DoubleClick  from 'react-native-double-tap'
 require('firebase/firestore')
 
 export default class HomeScreen extends React.Component {
@@ -107,8 +108,9 @@ export default class HomeScreen extends React.Component {
     
 
         return(
-        
+           
             <View style={styles.feedItem}>
+               
                {userAvatar}
                <View style={{flex: 1}}>
                    <View style={{flexDirection: 'row', justifyContent:"space-between", alignItems: 'center'}}>
@@ -121,7 +123,15 @@ export default class HomeScreen extends React.Component {
 
                     <Text style={styles.posts}>{post.text}</Text>
 
+                <DoubleClick
+                    doubleTap={() => {
+                        this.likesHandler(post);
+                    }}
+                    delay={200}
+                >
                     <Image source={{uri: post.image}} style={styles.postImage} resizeMode="cover"/>
+                </DoubleClick>
+
                
                     <View style={{flexDirection: 'row'}}>
                     <Text style={styles.posts}>{post.likes.length} {''}</Text>
