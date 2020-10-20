@@ -20,12 +20,9 @@ require("firebase/firestore");
 
 export default class ProfileScreen extends React.PureComponent {
   state = {
+    user: {},
     currentUser: {},
     postsArray: [],
-    user: {
-      following: [],
-      followers: [],
-    }
   };
 
   componentDidMount() {
@@ -44,6 +41,13 @@ export default class ProfileScreen extends React.PureComponent {
       this.fetchPost();
     });
   }
+
+  state = {
+    user: {
+      following: [],
+      followers: [],
+    },
+  };
 
   fetchCurrentUser = () => {
     const user = firebase.auth().currentUser.uid
@@ -106,6 +110,7 @@ export default class ProfileScreen extends React.PureComponent {
   };
 
   render() {
+    console.log()
     const render =
       this.state.postsArray !== undefined
         ? this.state.postsArray.map((post) => {

@@ -124,8 +124,7 @@ AppRegistry.registerComponent(appName, () => App)
             screen: PostViewScreen
         },
         profileModal: {
-            screen: UserScreen
-            
+            screen: UserScreen   
         },
         editModal: {
             screen: EditUserScreen
