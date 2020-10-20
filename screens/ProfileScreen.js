@@ -17,7 +17,7 @@ import firebase from "firebase";
 import { Ionicons } from "@expo/vector-icons";
 import IGStoryCircle from "react-native-instagram-story-circle";
 require("firebase/firestore");
-import {LinearGradient} from 'expo-linear-gradient'
+
 
 export default class ProfileScreen extends React.Component {
   state = {
@@ -136,34 +136,26 @@ export default class ProfileScreen extends React.Component {
               );
           })
         : null;
-          console.log(this.state.plantsArray)
         const uid = firebase.auth().currentUser.uid;
         const plants = this.state.plantsArray !== undefined
         ? this.state.plantsArray.map((plant) => {
           if (plant.uid === uid) {
             return (
               <>
-                {/* <TouchableOpacity onPress={() => {this.props.navigation.navigate("plantModal",
+             
+                <TouchableOpacity onPress={() => {this.props.navigation.navigate("plantModal",
                 {otherParam: plant.plant}
-                )}}> */}
-                  <IGStoryCircle source={{
-                      uri:
-                        plant.plant.image_url === null
-                          ? "https://cnet1.cbsistatic.com/img/KSgz75jjXU5AjvSuVkTIfOxi5WU=/940x0/2018/07/13/b5bb5e2c-daaa-4924-82f1-899a9507dc8d/smart-home-generic-6-6-18-0780.jpg"
-                          : plant.plant.image_url,
-                    }} hasStory onPress={() => {this.props.navigation.navigate("plantModal",
-                    {otherParam: plant.plant}
-                    )}} />
-                  {/* <Image
+                )}}>
+                  <Image
+                  style={styles.favavatar}
                     source={{
                       uri:
                         plant.plant.image_url === null
                           ? "https://cnet1.cbsistatic.com/img/KSgz75jjXU5AjvSuVkTIfOxi5WU=/940x0/2018/07/13/b5bb5e2c-daaa-4924-82f1-899a9507dc8d/smart-home-generic-6-6-18-0780.jpg"
                           : plant.plant.image_url,
                     }}
-                    style={styles.photo}
-                  /> */}
-                {/* </TouchableOpacity> */}
+                  />
+                </TouchableOpacity>
               </>
             );
           }
@@ -211,8 +203,14 @@ export default class ProfileScreen extends React.Component {
             </Text>
             <Text style={styles.statTitle}>Following</Text>
           </View>
-          {plants}
         </View>
+
+        <ScrollView horizontal={true}
+          decelerationRate={0}
+          snapToInterval={200} 
+          snapToAlignment={"center"}>
+          {plants}
+          </ScrollView>
 
         <ScrollView>
           <View style={styles.itemContainer}>{render}</View>
@@ -294,4 +292,10 @@ const styles = StyleSheet.create({
   edit: {
     marginLeft: 310
   },
+  favavatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 68,
+    paddingRight: 15
+  }
 });
