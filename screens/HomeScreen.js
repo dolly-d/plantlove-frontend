@@ -132,7 +132,7 @@ export default class HomeScreen extends React.Component {
                         }}
                         delay={200}
                     >
-                    <Image source={{uri: post.image}} style={styles.postImage} resizeMode="cover"/>
+                    <Image source={{uri: post.image}} style={styles.postImage} resizeMode='center'/>
                     </DoubleClick>
                     <View style={{flexDirection: 'row'}}>
                     <Text style={styles.posts}>{post.likes.length} {''}</Text>
@@ -146,7 +146,7 @@ export default class HomeScreen extends React.Component {
                         </TouchableOpacity>   
                         : 
                         <TouchableOpacity onPress={() => this.likesHandler(post)}>
-                        <Ionicons name='ios-heart' size={24} color='#73788B' style={{marginRight: 16}} />
+                        <Ionicons name='ios-heart-empty' size={24} color='#73788B' style={{marginRight: 16}} />
                         </TouchableOpacity> 
                         }
                     
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
         width: undefined,
         height: 200,
         borderRadius: 5,
-        marginVertical: 16
+        marginVertical: 8
 
     },centeredView: {
         flex: 1,
