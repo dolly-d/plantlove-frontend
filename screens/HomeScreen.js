@@ -108,9 +108,8 @@ export default class HomeScreen extends React.Component {
     
 
         return(
-           
+        
             <View style={styles.feedItem}>
-               
                {userAvatar}
                <View style={{flex: 1}}>
                    <View style={{flexDirection: 'row', justifyContent:"space-between", alignItems: 'center'}}>
@@ -122,17 +121,19 @@ export default class HomeScreen extends React.Component {
                    
 
                     <Text style={styles.posts}>{post.text}</Text>
-
-                <DoubleClick
-                    doubleTap={() => {
-                        this.likesHandler(post);
-                    }}
-                    delay={200}
-                >
+                    <DoubleClick
+                        singleTap={() => {
+                            this.props.navigation.navigate("commentsModal",
+                            {otherParam: post}
+                            );
+                        }}
+                        doubleTap={() => {
+                            this.likesHandler(post);
+                        }}
+                        delay={200}
+                    >
                     <Image source={{uri: post.image}} style={styles.postImage} resizeMode="cover"/>
-                </DoubleClick>
-
-               
+                    </DoubleClick>
                     <View style={{flexDirection: 'row'}}>
                     <Text style={styles.posts}>{post.likes.length} {''}</Text>
                     

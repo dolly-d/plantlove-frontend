@@ -134,6 +134,8 @@ export default class PostViewScreen extends React.Component {
                 </View>
         
                 <ScrollView>
+                
+                <Image source={{uri: this.props.navigation.state.params.otherParam.image}} style={styles.postImage} resizeMode="cover"/>
                 {comments}
                 </ScrollView>
               
@@ -212,5 +214,11 @@ const styles = StyleSheet.create({
      },
      submitButtonText:{
         color: 'white'
-     }
+     },
+     postImage: {
+        width: undefined,
+        height: 200,
+        borderRadius: 5,
+        marginVertical: 16
+    }
 })
