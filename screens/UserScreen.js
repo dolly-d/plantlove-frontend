@@ -20,12 +20,10 @@ require("firebase/firestore");
 
 export default class ProfileScreen extends React.PureComponent {
   state = {
+    user: {},
     currentUser: {},
     postsArray: [],
-    user: {
-      following: [],
-      followers: [],
-    }
+    plantsArray: []
   };
 
   componentDidMount() {
@@ -43,6 +41,30 @@ export default class ProfileScreen extends React.PureComponent {
     this.focusListener = navigation.addListener("didFocus", () => {
       this.fetchPost();
     });
+    this.fetchPlants()
+    this.focusListener = navigation.addListener('didFocus', () => {
+    this.fetchPlants()
+    })
+  }
+
+  state = {
+    user: {
+      following: [],
+      followers: [],
+    },
+  };
+
+  fetchPlants =()=>{
+    firebase
+      .firestore()
+      .collection("plants")
+      .get()
+      .then((snapshot) => {
+        let plantsData = snapshot.docs.map((doc) => {
+          return doc.data();
+        });
+        this.setState({ plantsArray: plantsData });
+      });
   }
 
   fetchCurrentUser = () => {
@@ -106,7 +128,6 @@ export default class ProfileScreen extends React.PureComponent {
   };
 
   render() {
-    console.log()
     const render =
       this.state.postsArray !== undefined
         ? this.state.postsArray.map((post) => {
@@ -118,6 +139,30 @@ export default class ProfileScreen extends React.PureComponent {
           })
         : null;
 
+        const uid = this.props.navigation.state.params.otherParam.uid;
+        const plants = this.state.plantsArray !== undefined
+        ? this.state.plantsArray.map((plant) => {
+          if (plant.uid === uid) {
+            return (
+              <>
+             
+                <TouchableOpacity onPress={() => {this.props.navigation.navigate("plantModal",
+                {otherParam: plant.plant}
+                )}}>
+                  <Image
+                  style={styles.favavatar}
+                    source={{
+                      uri:
+                        plant.plant.image_url === null
+                          ? "https://cnet1.cbsistatic.com/img/KSgz75jjXU5AjvSuVkTIfOxi5WU=/940x0/2018/07/13/b5bb5e2c-daaa-4924-82f1-899a9507dc8d/smart-home-generic-6-6-18-0780.jpg"
+                          : plant.plant.image_url,
+                    }}
+                  />
+                </TouchableOpacity>
+              </>
+            );
+          }
+        }) : null;
     return (
       <SafeAreaView>
         <View style={styles.header}>
@@ -188,6 +233,13 @@ export default class ProfileScreen extends React.PureComponent {
             <Text style={styles.statTitle}>Following</Text>
           </View>
         </View>
+        <View style={styles.container}>
+        <ScrollView horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        >
+          {plants}
+          </ScrollView>
+          </View>
         <View>
           <ScrollView>
             <View style={styles.itemContainer}>{render}</View>
@@ -199,7 +251,13 @@ export default class ProfileScreen extends React.PureComponent {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    borderBottomColor: '#D8D9DB',
+    borderBottomWidth: 1,
+    borderTopColor: '#D8D9DB',
+    borderTopWidth: 1,
+    paddingLeft: 15
+   },
   header: {
     flexDirection: "row-reverse",
     justifyContent: "space-between",
@@ -268,4 +326,12 @@ const styles = StyleSheet.create({
   edit: {
     marginLeft: 310,
   },
+  favavatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 68,
+    marginRight: 10,
+    marginBottom: 10,
+    marginTop: 10
+  }
 });

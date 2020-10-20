@@ -6,6 +6,7 @@ import firebaseKeys from '../firebase'
 import firebase from 'firebase'
 import { withNavigation } from 'react-navigation'
 import { render } from 'react-dom'
+import  DoubleClick  from 'react-native-double-tap'
 require('firebase/firestore')
 
 export default class HomeScreen extends React.Component {
@@ -120,9 +121,19 @@ export default class HomeScreen extends React.Component {
                    
 
                     <Text style={styles.posts}>{post.text}</Text>
-
+                    <DoubleClick
+                        singleTap={() => {
+                            this.props.navigation.navigate("commentsModal",
+                            {otherParam: post}
+                            );
+                        }}
+                        doubleTap={() => {
+                            this.likesHandler(post);
+                        }}
+                        delay={200}
+                    >
                     <Image source={{uri: post.image}} style={styles.postImage} resizeMode="cover"/>
-               
+                    </DoubleClick>
                     <View style={{flexDirection: 'row'}}>
                     <Text style={styles.posts}>{post.likes.length} {''}</Text>
                     

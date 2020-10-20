@@ -22,9 +22,9 @@ import moment from 'moment'
 export default class PostViewScreen extends React.Component {
     state = {
         usersArray: [],
-        modalVisible: false,
         commentsArray: [],
-        user: ""
+        user: "",
+        comment: ""
     }
     
     componentDidMount(){
@@ -90,12 +90,12 @@ export default class PostViewScreen extends React.Component {
                 postid: uid,
                 name: username
             })
-            .then(ref => {
-                res(ref)
-            })
             .then(this.fetchComments())
             .catch(error => {
                 rej(error)
+            })
+            this.setState({
+                comment: ""
             })
         })
         
@@ -134,6 +134,8 @@ export default class PostViewScreen extends React.Component {
                 </View>
         
                 <ScrollView>
+                
+                <Image source={{uri: this.props.navigation.state.params.otherParam.image}} style={styles.postImage} resizeMode="cover"/>
                 {comments}
                 </ScrollView>
               
@@ -141,6 +143,7 @@ export default class PostViewScreen extends React.Component {
                 <View style={{flexDirection:'row', alignItems: "flex-end"}}>
                 <TextInput
                     style={styles.input}
+                    value={this.state.comment}
                     clearButtonMode= 'while-editing'
                     placeholder={'Comment'}
                     onChangeText={(text) => this.setState({
@@ -212,5 +215,11 @@ const styles = StyleSheet.create({
      },
      submitButtonText:{
         color: 'white'
-     }
+     },
+     postImage: {
+        width: undefined,
+        height: 200,
+        borderRadius: 5,
+        marginVertical: 16
+    }
 })
