@@ -204,13 +204,13 @@ export default class ProfileScreen extends React.Component {
             <Text style={styles.statTitle}>Following</Text>
           </View>
         </View>
-
+          <View style={styles.container}>
         <ScrollView horizontal={true}
-          decelerationRate={0}
-          snapToInterval={200} 
-          snapToAlignment={"center"}>
+        showsHorizontalScrollIndicator={false}
+        >
           {plants}
           </ScrollView>
+          </View>
 
         <ScrollView>
           <View style={styles.itemContainer}>{render}</View>
@@ -222,7 +222,11 @@ export default class ProfileScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-   
+   borderBottomColor: '#D8D9DB',
+   borderBottomWidth: 1,
+   borderTopColor: '#D8D9DB',
+   borderTopWidth: 1,
+   paddingLeft: 15
   },
   header: {
     flexDirection: 'row-reverse',
@@ -293,9 +297,11 @@ const styles = StyleSheet.create({
     marginLeft: 310
   },
   favavatar: {
-    width: 40,
-    height: 40,
+    width: 50,
+    height: 50,
     borderRadius: 68,
-    paddingRight: 15
+    marginRight: 10,
+    marginBottom: 10,
+    marginTop: 10
   }
 });
