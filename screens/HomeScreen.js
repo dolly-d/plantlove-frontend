@@ -14,9 +14,7 @@ export default class HomeScreen extends React.Component {
     state = {
         postsArray: [],
         usersArray: [],
-        comment: "",
-        pickPost: [],
-        clicked: false,
+        
 
     }
     
@@ -87,6 +85,7 @@ export default class HomeScreen extends React.Component {
     }
     
     renderPost = post => {
+        let currentUserId = firebase.auth().currentUser.uid
         const userAvatar = this.state.usersArray.map((user) => {
             if(user.uid == post.uid){
                 return (
