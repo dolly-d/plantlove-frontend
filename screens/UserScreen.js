@@ -128,6 +128,7 @@ export default class ProfileScreen extends React.PureComponent {
   };
 
   render() {
+    console.log(this.state.currentUser)
     const render =
       this.state.postsArray !== undefined
         ? this.state.postsArray.map((post) => {
@@ -171,6 +172,7 @@ export default class ProfileScreen extends React.PureComponent {
             this.props.navigation.state.params.otherParam
               .uid ? null : this.state.currentUser == undefined ? null : this.state.currentUser.following.find((followId) => {
                 return followId === this.props.navigation.state.params.otherParam.uid
+          
                 ;
               }) ? (
               <TouchableOpacity

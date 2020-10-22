@@ -4,6 +4,7 @@ import {Ionicons} from '@expo/vector-icons'
 import moment from 'moment'
 import firebaseKeys from '../firebase'
 import firebase from 'firebase'
+import Fire from "../Fire";
 import { withNavigation } from 'react-navigation'
 import { render } from 'react-dom'
 import  DoubleClick  from 'react-native-double-tap'
@@ -14,13 +15,16 @@ export default class HomeScreen extends React.Component {
     state = {
         postsArray: [],
         usersArray: [],
-        
-
+        currentUser: {},
+    
     }
+
+    
     
     componentDidMount(){
         const { navigation } = this.props;
         this.fetchUser()
+        this.fetchCurrentUser()
         this.fetchPost();
         this.focusListener = navigation.addListener('didFocus', () => {
             this.fetchPost();
@@ -39,6 +43,16 @@ export default class HomeScreen extends React.Component {
            this.setState({ usersArray: userData })
         })
     }
+
+    fetchCurrentUser = () => {
+        const user = firebase.auth().currentUser.uid
+        this.unsubscribe = Fire.shared.firestore
+          .collection("users")
+          .doc(user)
+          .onSnapshot((doc) => {
+            this.setState({ currentUser: doc.data() });
+          });
+      };
 
     fetchPost =()=>{
         if(!firebase.apps.length){
@@ -85,7 +99,8 @@ export default class HomeScreen extends React.Component {
     }
     
     renderPost = post => {
-        let currentUserId = firebase.auth().currentUser.uid
+        let currentUserId = this.state.currentUser.following
+        console.log(currentUserId)
         const userAvatar = this.state.usersArray.map((user) => {
             if(user.uid == post.uid){
                 return (
