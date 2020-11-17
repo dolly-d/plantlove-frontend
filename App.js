@@ -22,6 +22,7 @@ import PlantScreen from './screens/PlantScreen'
 AppRegistry.registerComponent(appName, () => App)
 
 
+
  const AppContainer = createStackNavigator({
         default: createBottomTabNavigator({
 
