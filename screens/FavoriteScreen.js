@@ -65,8 +65,8 @@ async function sendPushNotification(expoPushToken) {
   const message = {
     to: expoPushToken,
     sound: 'default',
-    title: 'Original Title',
-    body: 'And here is the body!',
+    title: 'Follower!',
+    body: 'such and such followed you!',
     data: { data: 'goes here' },
   };
 
