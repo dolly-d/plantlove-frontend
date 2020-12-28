@@ -11,3 +11,5 @@ web-build/
 firebase.js
 # macOS
 .DS_Store
+android
+ios
