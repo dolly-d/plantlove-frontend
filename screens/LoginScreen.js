@@ -2,6 +2,11 @@ import React from 'react'
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar, LayoutAnimation} from 'react-native';
 import {Ionicons} from '@expo/vector-icons'
 import * as firebase from 'firebase'
+// import {
+//     GoogleSignin,
+//     GoogleSigninButton,
+//     statusCodes,
+//   } from '@react-native-google-signin/google-signin';
 
 export default class LoginScreen extends React.Component {
     static navigationOptions = {
@@ -10,8 +15,30 @@ export default class LoginScreen extends React.Component {
     state = {
         email: "",
         password: "",
-        errorMessage: null
+        errorMessage: null,
     };
+
+    componentDidMount() {
+        this.initAsync();
+      }
+       signInWithGoogleAsync = async () => {
+        try {
+          const result = await Google.logInAsync({
+            // androidClientId: YOUR_CLIENT_ID_HERE,
+            behavior: 'web',
+            iosClientId: '634987641199-ulagb17dd1ga7q4cpi5lkblo9fh3lk12.apps.googleusercontent.com',
+            scopes: ['profile', 'email'],
+          });
+      
+          if (result.type === 'success') {
+            return result.accessToken;
+          } else {
+            return { cancelled: true };
+          }
+        } catch (e) {
+          return { error: true };
+        }
+      };
 
     handleLogin = () =>{
         const {email, password} = this.state
@@ -26,34 +53,7 @@ export default class LoginScreen extends React.Component {
             .catch(error => this.setState({ errorMessage: error.message}))
     }
 
-    googleSignin = () =>{
-        const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithRedirect(provider);
-        firebase.auth()
-  .getRedirectResult()
-  .then((result) => {
-    if (result.credential) {
-      /** @type {firebase.auth.OAuthCredential} */
-      var credential = result.credential;
-
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      var token = credential.accessToken;
-      // ...
-    }
-    // The signed-in user info.
-    var user = result.user;
-  }).catch((error) => {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // The email of the user's account used.
-    var email = error.email;
-    // The firebase.auth.AuthCredential type that was used.
-    var credential = error.credential;
-    // ...
-  });
-
-    }
+    
     
     render() {
         
@@ -106,7 +106,7 @@ export default class LoginScreen extends React.Component {
                     <Text style={{ color: "#FFF", fontWeight: "500"}}>Log In !</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button} onPress={this.googleSignin}>
+                <TouchableOpacity style={styles.button} onPress={this.signInWithGoogleAsync}>
                     <Text style={{ color: "#FFF", fontWeight: "500"}}>Google Sign In !</Text>
                 </TouchableOpacity>
 
