@@ -20,15 +20,9 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.plantlove.plantbae",
-      "config": {
-        "googleSignIn": {
-          "reversedClientId": "com.googleusercontent.apps.634987641199-qe01cfaotbkmrh02de6ed4fqrrnhus08"
-
-        }
-      }
-      
+      "bundleIdentifier": "com.plantlove.plantbae"
     },
+    
     "web": {
       "favicon": "./assets/favicon.png"
     },
