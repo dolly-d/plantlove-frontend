@@ -19,11 +19,6 @@ import { name as appName } from "./app.json"
 import PostViewScreen from './screens/PostViewScreen'
 import UserScreen from './screens/UserScreen'
 import PlantScreen from './screens/PlantScreen'
-// import { GoogleSignin } from '@react-native-google-signin/google-signin';
-
-// GoogleSignin.configure({
-//   webClientId: '634987641199-qe01cfaotbkmrh02de6ed4fqrrnhus08.apps.googleusercontent.com',
-// });
 
 AppRegistry.registerComponent(appName, () => App)
 
