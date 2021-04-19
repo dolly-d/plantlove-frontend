@@ -28,8 +28,8 @@ export default class LoginScreen extends React.Component {
       const result = await Google.logInAsync({
         // androidClientId: YOUR_CLIENT_ID_HERE,
         // behavior: "web",
-        iosClientId:
-          "634987641199-m81dnf1if8brpofmmem95for8dr8kcef.apps.googleusercontent.com",
+        // iosClientId:
+        //   "634987641199-m81dnf1if8brpofmmem95for8dr8kcef.apps.googleusercontent.com",
         scopes: ["profile", "email"],
       });
 
