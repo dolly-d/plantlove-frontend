@@ -30,7 +30,7 @@ export default class LoginScreen extends React.Component {
         // behavior: "web",
         // iosClientId:
         //   "634987641199-m81dnf1if8brpofmmem95for8dr8kcef.apps.googleusercontent.com",
-        scopes: ["profile", "email"],
+        // scopes: ["profile", "email"],
       });
 
       if (result.type === "success") {
