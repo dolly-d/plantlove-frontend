@@ -100,7 +100,7 @@ export default class HomeScreen extends React.Component {
     
     renderPost = post => {
         let currentUserId = this.state.currentUser.following
-        console.log(currentUserId)
+        // console.log(currentUserId)
         const userAvatar = this.state.usersArray.map((user) => {
             if(user.uid == post.uid){
                 return (
