@@ -22,10 +22,12 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.plantlove.plantbae"
     },
-    
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "For all the plant lovers!! You are seen !!!"
+    "description": "For all the plant lovers!! You are seen !!!",
+    "android": {
+      "package": "com.plantlove.plantbae"
+    }
   }
 }
